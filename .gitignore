@@ -1,0 +1,9 @@
+# ignore appsettings
+**/appsettings.development.json
+**/appsettings.staging.json
+**/appsettings.production.json
+
+# ignore connectionstrings
+**/connectionstrings.development.json
+**/connectionstrings.staging.json
+**/connectionstrings.production.json
