@@ -1,13 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using FindIt.Backend.Entities;
+using FindIt.Backend.Models.Accounts;
 
 namespace FindIt.Backend.Helpers
 {
-    public class AutoMapperProfile
+    public class AutoMapperProfile : Profile
     {
-        
+        // mappings between model and entity objects
+        public AutoMapperProfile()
+
+        {
+            CreateMap<RegisterRequest, Account>();
+          
+
+        }
     }
 }

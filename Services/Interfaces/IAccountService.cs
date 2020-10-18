@@ -1,4 +1,5 @@
-﻿using FindIt.Backend.Models.Accounts;
+﻿using FindIt.Backend.Entities;
+using FindIt.Backend.Models.Accounts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,13 @@ namespace FindIt.Backend.Services.Interfaces
 {
     public interface IAccountService
     {
-       
-        Task RegisterAsync(RegisterRequest model, string origin);   
-       
-       
+
+        Task RegisterAsync(RegisterRequest model );
+        AuthenticateResponse Authenticate(string email, string password);
+        AuthenticateResult GetToken(Account user);
+
+
+
     }
 
 }

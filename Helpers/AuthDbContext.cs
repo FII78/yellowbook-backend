@@ -10,10 +10,14 @@ using System.Threading.Tasks;
 
 namespace FindIt.Backend.Helpers
 {
-    public class AuthDbContext
-    {
+    public   class AuthDbContext  
 
-        private readonly IMongoDatabase _database = null;
+    {
+        private readonly IMongoDatabase _database;
+
+        public AuthDbContext()
+        {
+        }
 
         public AuthDbContext(IOptions<Settings> settings)
         {
@@ -22,13 +26,23 @@ namespace FindIt.Backend.Helpers
                 _database = client.GetDatabase(settings.Value.DatabaseName);
         }
 
-        public IMongoCollection<Account> Accounts
+        public AuthDbContext(IMongoDatabase database)
+        {
+            _database = database;
+        }
+
+        public IMongoCollection<Account> Account
         {
             get
             {
+
                 return _database.GetCollection<Account>("Account");
+
             }
+            set { }
+
         }
+
 
     }
 
