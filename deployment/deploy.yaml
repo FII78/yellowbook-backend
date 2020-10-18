@@ -1,0 +1,46 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: findit
+spec:
+  selector:
+    matchLabels:
+      app: aspnetcore
+      role: backend
+  replicas: 1
+  template:
+    metadata:
+      name: findit-deployment
+      labels:
+        app: aspnetcore
+        role: backend
+        version: v1
+    spec:
+      containers:
+      - name: apsnetcore
+        image: gcr.io/gcr-project/sample:1.0.0
+        env:
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: mongo-secret
+                key: MONGODB_URL
+          - name: NODE_ENV
+            value: development
+          - name: JWT_USER_SECRET
+            valueFrom: 
+                secretKeyRef:
+                    name: jwt-secret
+                    key: JWT_KEY
+        resources:
+          limits:
+            memory: "500Mi"
+            cpu: "100m"
+        imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /api/accounts
+            port: 8080
+        ports:
+        - name: backend-port
+          containerPort: 8080

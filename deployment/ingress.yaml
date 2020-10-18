@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+  name: findit-ingress
+spec:
+  rules:
+  - host: findit-backend.apps.et6nh.gebeya.co
+    http:
+      paths:
+      - backend:
+          serviceName: findit-service
+          servicePort: 8080
+        path: /

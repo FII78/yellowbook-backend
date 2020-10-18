@@ -4,17 +4,18 @@
 #For more information, please see https://aka.ms/containercompat
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
-WORKDIR /app
-EXPOSE 8080
 
+#Insall production dependencies
+WORKDIR /app
 COPY *.csproj ./
 RUN dotnet restore
 
-copy . ./
-RUN dotnet build -c Release -o out
+COPY . ./
+RUN dotnet publish -c Release -o out
 
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 
 WORKDIR /app
 COPY --from=build-env /app/out .
+EXPOSE 8080
 
 ENTRYPOINT ["dotnet", "FindIt.Backend.dll"]
