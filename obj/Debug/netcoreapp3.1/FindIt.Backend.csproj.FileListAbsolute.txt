@@ -93,3 +93,6 @@ C:\Users\Fitsum\source\repos\FindIt.Backend\bin\Debug\netcoreapp3.1\Microsoft.Id
 C:\Users\Fitsum\source\repos\FindIt.Backend\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
 C:\Users\Fitsum\source\repos\FindIt.Backend\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
 C:\Users\Fitsum\source\repos\FindIt.Backend\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.Backend.csproj.CoreCompileInputs.cache
+C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.Backend.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.Backend.MvcApplicationPartsAssemblyInfo.cache

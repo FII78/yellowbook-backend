@@ -4,13 +4,13 @@
     "\\Controllers",
     "\\Entities",
     "\\Helpers",
-    "\\Middleware",
     "\\Models",
     "\\Models\\Accounts",
+    "\\Properties",
     "\\Services",
     "\\Services\\Implementations",
     "\\Services\\Interfaces"
   ],
-  "SelectedNode": "\\Services\\Implementations\\EmailService.cs",
+  "SelectedNode": "\\Services\\Implementations\\AccountService.cs",
   "PreviewInSolutionExplorer": false
 }
