@@ -11,5 +11,5 @@ spec:
       paths:
       - backend:
           serviceName: findit-service
-          servicePort: 8080
+          servicePort: 80
         path: /

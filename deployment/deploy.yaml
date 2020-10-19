@@ -40,7 +40,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /api/accounts
-            port: 8080
+            port: 80
         ports:
         - name: backend-port
-          containerPort: 8080
+          containerPort: 80
