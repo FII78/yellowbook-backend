@@ -15,5 +15,6 @@ namespace FindIt.Backend.Services.Interfaces
         Task<Locations> CreateAsync(LocationVM location);
         Task<LocationVM> UpdateAsync(Locations location);
         Task DeleteAsync(string id);
+        Task<LocationVM> searchNearestLocationAsync(LocationVM location1, LocationVM location2);
     }
 }

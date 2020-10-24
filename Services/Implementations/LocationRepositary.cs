@@ -15,33 +15,33 @@ using System.Threading.Tasks;
 
 namespace FindIt.Backend.Services.Implementations
 {
-  
-        public class LocationRepositary : ILocationsRepositoryAsync
+
+    public class LocationRepositary : ILocationsRepositoryAsync
+    {
+        private readonly AuthDbContext _context;
+        private readonly IMapper _mapper;
+        //     private readonly IConfiguration _config;
+
+        public LocationRepositary(AuthDbContext context)
         {
-            private readonly AuthDbContext _context;
-            private readonly IMapper _mapper;
-       //     private readonly IConfiguration _config;
+            _context = context;
+        }
 
-            public LocationRepositary(AuthDbContext context)
-            {
-                _context = context;
-            }
+        public LocationRepositary(
 
-            public LocationRepositary(
-
-               IMapper mapper,
-               IOptions<Settings> settings
-                //IConfiguration config
-                )
-            {
-                _context = new AuthDbContext(settings);
-                _mapper = mapper;
-                //_config = config;
-            }
+           IMapper mapper,
+           IOptions<Settings> settings
+            //IConfiguration config
+            )
+        {
+            _context = new AuthDbContext(settings);
+            _mapper = mapper;
+            //_config = config;
+        }
 
         public async Task<IList<Locations>> GetAllAsync()
         {
-            return await _context.Locations.Find(Locations=>true).ToListAsync();
+            return await _context.Locations.Find(Locations => true).ToListAsync();
         }
 
         public async Task<Locations> GetAsync(string id)
@@ -59,25 +59,25 @@ namespace FindIt.Backend.Services.Implementations
         }
 
         public async Task<Locations> CreateAsync(LocationVM location)
+        {
+            //  location.Id = Guid.NewGuid().ToString();
+            var locationcreated = new Locations
             {
-              //  location.Id = Guid.NewGuid().ToString();
-                var locationcreated = new Locations
-                {
-                   
-                    Name = location.Name,
-                    Description = location.Description,
-                    Latitude = location.Latitude,
-                    Longitude = location.Longitude
 
-                };
-                await _context.Locations.InsertOneAsync(locationcreated);
-               
-                return locationcreated;
-            }
+                Name = location.Name,
+                Description = location.Description,
+                Latitude = location.Latitude,
+                Longitude = location.Longitude
+
+            };
+            await _context.Locations.InsertOneAsync(locationcreated);
+
+            return locationcreated;
+        }
         //change it to update view model
         public async Task<LocationVM> UpdateAsync(Locations location)
         {
-           
+
             var loc = await _context.Locations.Find(emp => emp.Id == location.Id).FirstOrDefaultAsync();
             if (loc != null)
             {
@@ -100,19 +100,49 @@ namespace FindIt.Backend.Services.Implementations
         public async Task DeleteAsync(string id)
         {
             ObjectId.TryParse(id, out ObjectId objectId);
-            
+
             var filterId = Builders<Locations>.Filter.Eq("_id", objectId);
 
             var loc = await _context.Locations.Find(filterId).FirstOrDefaultAsync();
-           
+
             if (loc != null)
             {
                 await _context.Locations.DeleteOneAsync(a => a.Id == id);
-              
+
             }
 
         }
 
+        public Task<LocationVM> searchNearestLocationAsync(LocationVM location1, LocationVM location2)
+        {
+
+        }
+
+        private double getDistanceBetweenTwoPoints(double Longitude1, double Longitude2, double Latitude1, double Latitude2, string unit="Km")
+        {
+            double theta = Longitude1 - Longitude2;
+            var distance = Math.Sin(ConvertToRadians(Latitude1)) * Math.Sin(ConvertToRadians(Latitude2)) + Math.Cos(ConvertToRadians(Latitude1)) * Math.Cos(ConvertToRadians(Latitude2)) * +Math.Cos(ConvertToRadians(theta));
+
+            distance = Math.Acos(distance);
+            distance = ConvertToDegrees(distance);
+            distance = distance * 60 * 1.1515;
+
+            switch (unit)
+            {
+                case "Km":break;
+                case "Mi":distance /= 1.609344; break;
+            }
+
+            return Math.Round(distance, 2);
+        }
+        public double ConvertToRadians(double angle)
+        {
+            return (Math.PI / 180) * angle;
+        }
+        public double ConvertToDegrees(double radian)
+        {
+            return ( 180/ Math.PI) * radian;
+        }
     }
     }
 
