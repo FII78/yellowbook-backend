@@ -19,19 +19,19 @@ spec:
       containers:
       - name: apsnetcore
         image: gcr.io/gcr-project/sample:1.0.0
-        env:
-          - name: DATABASE_URL
-            valueFrom:
-              secretKeyRef:
-                name: mongo-secret
-                key: MONGODB_URL
-          - name: NODE_ENV
-            value: development
-          - name: JWT_USER_SECRET
-            valueFrom: 
-                secretKeyRef:
-                    name: jwt-secret
-                    key: JWT_KEY
+        #env:
+        #  - name: DATABASE_URL
+        #    valueFrom:
+        #      secretKeyRef:
+        #        name: mongo-secret
+        #        key: MONGODB_URL
+        #  - name: NODE_ENV
+        #    value: development
+        #  - name: JWT_USER_SECRET
+        #    valueFrom: 
+        #        secretKeyRef:
+        #            name: jwt-secret
+        #            key: JWT_KEY
         resources:
           limits:
             memory: "500Mi"
@@ -40,7 +40,7 @@ spec:
         readinessProbe:
           httpGet:
             path: /api/accounts
-            port: 8080
+            port: 80
         ports:
         - name: backend-port
-          containerPort: 8080
+          containerPort: 80
