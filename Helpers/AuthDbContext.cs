@@ -43,7 +43,17 @@ namespace FindIt.Backend.Helpers
 
         }
 
+        public IMongoCollection<Locations> Locations
+        {
+            get
+            {
 
+                return _database.GetCollection<Locations>("Locations");
+
+            }
+            set { }
+
+        }
     }
 
 }

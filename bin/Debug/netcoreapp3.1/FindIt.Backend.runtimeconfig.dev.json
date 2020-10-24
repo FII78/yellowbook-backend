@@ -1,8 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "/home/nardos/.dotnet/store/|arch|/|tfm|",
-      "/home/nardos/.nuget/packages"
+      "C:\\Users\\Fitsum\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Fitsum\\.nuget\\packages"
     ]
   }
 }

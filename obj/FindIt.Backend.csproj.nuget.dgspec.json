@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/nardos/devops/Capstone/FindIt-api/YellowBook-Backend/FindIt.Backend.csproj": {}
+    "C:\\Users\\Fitsum\\source\\repos\\FindIt.Backend\\FindIt.Backend.csproj": {}
   },
   "projects": {
-    "/home/nardos/devops/Capstone/FindIt-api/YellowBook-Backend/FindIt.Backend.csproj": {
+    "C:\\Users\\Fitsum\\source\\repos\\FindIt.Backend\\FindIt.Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/nardos/devops/Capstone/FindIt-api/YellowBook-Backend/FindIt.Backend.csproj",
+        "projectUniqueName": "C:\\Users\\Fitsum\\source\\repos\\FindIt.Backend\\FindIt.Backend.csproj",
         "projectName": "FindIt.Backend",
-        "projectPath": "/home/nardos/devops/Capstone/FindIt-api/YellowBook-Backend/FindIt.Backend.csproj",
-        "packagesPath": "/home/nardos/.nuget/packages/",
-        "outputPath": "/home/nardos/devops/Capstone/FindIt-api/YellowBook-Backend/obj/",
+        "projectPath": "C:\\Users\\Fitsum\\source\\repos\\FindIt.Backend\\FindIt.Backend.csproj",
+        "packagesPath": "C:\\Users\\Fitsum\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Fitsum\\source\\repos\\FindIt.Backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/nardos/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Fitsum\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -99,7 +101,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.403/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

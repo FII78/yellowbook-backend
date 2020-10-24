@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace FindIt.Backend
 {
@@ -34,7 +35,32 @@ namespace FindIt.Backend
                         options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
                         options.DatabaseName = Configuration.GetSection("MongoConnection:DatabaseName").Value;
                     });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "FindIt API", Version = "v1" });
 
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
+            });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddAuthentication(options =>
                     {
@@ -55,10 +81,10 @@ namespace FindIt.Backend
                             ClockSkew = TimeSpan.Zero
                         };
                     });
+               services.AddTransient<ILocationsRepositoryAsync, LocationRepositary>();
 
             services.AddScoped<IAccountService, AccountService>();
-             
-              
+            
 
         }
 
@@ -70,6 +96,11 @@ namespace FindIt.Backend
    
 
             app.UseMiddleware<ErrorHandlerMiddleware>();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
             app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
             app.UseAuthentication();

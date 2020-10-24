@@ -2,11 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\Controllers",
-    "\\Entities",
     "\\Helpers",
+    "\\Middleware",
     "\\Models",
     "\\Models\\Accounts",
-    "\\Properties",
+    "\\obj\\Container",
     "\\Services",
     "\\Services\\Implementations",
     "\\Services\\Interfaces"
