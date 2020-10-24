@@ -16,6 +16,8 @@ using System.Threading.Tasks;
 using MongoDB.Bson;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using FindIt.Backend.JSettings;
 
 namespace FindIt.Backend.Services.Implementations
 {
@@ -25,7 +27,7 @@ namespace FindIt.Backend.Services.Implementations
         private readonly AuthDbContext _context;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
-
+        private readonly JwtSettings _jwtsettings;
         public AccountService(AuthDbContext context)
         {
             _context = context;
@@ -35,15 +37,16 @@ namespace FindIt.Backend.Services.Implementations
            
            IMapper mapper,
            IOptions<Settings> settings,
-            IConfiguration config)
+            IConfiguration config,
+            IOptionsSnapshot<JwtSettings> jwtsettings)
         {
             _context = new AuthDbContext(settings);
             _mapper = mapper;
             _config = config;
+            _jwtsettings = jwtsettings.Value;
         }
+       
 
-        
-        
         public async Task RegisterAsync(RegisterRequest model)
         {
 
@@ -117,17 +120,29 @@ namespace FindIt.Backend.Services.Implementations
 
         public AuthenticateResult GetToken(Account user)
         {
-            var key = new SymmetricSecurityKey
-                (Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
 
+
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Sub,user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
+            };
+
+            //hard code the setting
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtsettings.Secret));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddDays(Convert.ToDouble(_jwtsettings.ExpirationInDays));
 
-            var token = new JwtSecurityToken
-                (_config["Jwt:Site"],
-                _config["Jwt:Audience"],
-                null,
-             expires: DateTime.Now.AddMinutes(double.Parse(_config["Jwt:ExpiryInMinutes"])),
-             signingCredentials: creds);
+            var token = new JwtSecurityToken(
+                issuer: _jwtsettings.Issuer,
+                audience: _jwtsettings.Issuer,
+                claims,
+                expires: expires,
+                signingCredentials: creds
+                      );
 
             return new AuthenticateResult
             {
@@ -135,6 +150,7 @@ namespace FindIt.Backend.Services.Implementations
                 Expiration = token.ValidTo,
                 Email = user.Email
             };
+           
         }
 
 

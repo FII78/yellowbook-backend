@@ -57,6 +57,22 @@ namespace FindIt.Backend.Controllers
         }
 
         /// <summary>
+        /// Gets a distance between two location
+        /// </summary>
+        /// <returns>A location item</returns>
+        /// <response code="200">Returns the requested location item</response>
+
+        //[ProducesResponseType(StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status404NotFound)]
+        //[HttpGet("getDiff")]
+        //public double GetDiff()
+        //{
+        //    var existingLoc =  _locationsRepository.searchDistanceBetweenLocationsAsync(location1, location2);
+            
+        //    return existingLoc;
+        //}
+
+        /// <summary>
         /// Creates a new location item
         /// </summary>
         /// <returns>The created location item</returns>

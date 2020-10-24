@@ -3,6 +3,7 @@ using System.Text;
 using AutoMapper;
 using FindIt.Backend.Entities;
 using FindIt.Backend.Helpers;
+using FindIt.Backend.JSettings;
 using FindIt.Backend.Middleware;
 using FindIt.Backend.Services;
 using FindIt.Backend.Services.Implementations;
@@ -62,26 +63,27 @@ namespace FindIt.Backend
                 });
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddAuthentication(options =>
-                    {
-                        options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    })
-                    .AddJwtBearer(options =>
-                    {
-                        options.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            ValidateIssuer = false,
-                            ValidateAudience = false,
-                            ValidateLifetime = true,
-                            ValidateIssuerSigningKey = true,
-
-                            ValidIssuer = Configuration["JWT:Site"],
-                            ValidAudience = Configuration["JWT:Audience"],
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:key"])),
-                            ClockSkew = TimeSpan.Zero
-                        };
-                    });
-               services.AddTransient<ILocationsRepositoryAsync, LocationRepositary>();
+            services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
+            services
+              .AddAuthorization()
+              .AddAuthentication(options =>
+              {
+                  options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                  options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                  options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+              })
+              .AddJwtBearer(options =>
+              {
+                  options.RequireHttpsMetadata = false;
+                  options.TokenValidationParameters = new TokenValidationParameters
+                  {
+                      ValidIssuer = Configuration["JWT:Issuer"],
+                      ValidAudience = Configuration["JWT:Audience"],
+                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"])),
+                      ClockSkew = TimeSpan.Zero
+                  };
+              });
+            services.AddTransient<ILocationsRepositoryAsync, LocationRepositary>();
 
             services.AddScoped<IAccountService, AccountService>();
             

@@ -113,8 +113,10 @@ namespace FindIt.Backend.Services.Implementations
 
         }
 
-        public Task<LocationVM> searchNearestLocationAsync(LocationVM location1, LocationVM location2)
+        public double searchDistanceBetweenLocationsAsync(LocationVM location1, LocationVM location2)
         {
+            return getDistanceBetweenTwoPoints(location1.Longitude, location2.Longitude, location1.Latitude, location2.Latitude);
+
 
         }
 
