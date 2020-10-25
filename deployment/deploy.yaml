@@ -38,9 +38,9 @@ spec:
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
-            timeoutSeconds: 5s
             path: /api/accounts
             port: 80
+          timeoutSeconds: 5s
         ports:
         - name: backend-port
           containerPort: 80
