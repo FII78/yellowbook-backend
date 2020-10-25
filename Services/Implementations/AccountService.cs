@@ -73,12 +73,14 @@ namespace FindIt.Backend.Services.Implementations
                 FirstName=model.FirstName,
                 LastName=model.LastName,
                 Email=model.Email,
-                AcceptTerms=model.AcceptTerms
+                AcceptTerms=model.AcceptTerms,
+                Role=model.Role
             };
 
             // first registered account is an admin
-            var isFirstAccount = await _context.Account.EstimatedDocumentCountAsync() == 0;
-            account.Role = isFirstAccount ? Role.Admin : Role.User;
+            // var isFirstAccount = await _context.Account.EstimatedDocumentCountAsync() == 0;
+            // account.Role = isFirstAccount ? Role.Admin : Role.User;
+           // account.Role = (Role)(account.Role != null ? 0 : 1);
             account.Created = DateTime.UtcNow;
 
             // hash password
@@ -96,6 +98,9 @@ namespace FindIt.Backend.Services.Implementations
             var encryptedPassword = BC.HashPassword(password);
      
             var model =   _context.Account.Find(s => s.Email == email).FirstOrDefault();
+            if (model==null){
+                return null;
+            }
             bool checker = BC.Verify(password,model.PasswordHash);
                
             if (checker)
@@ -117,6 +122,24 @@ namespace FindIt.Backend.Services.Implementations
             else return null;
 
         }
+        public async Task<IList<Account>> GetAllAsync()
+        {
+            return await _context.Account.Find(Account => true).ToListAsync();
+        }
+
+        public async Task<Account> GetAsync(string id)
+        {
+            if (!ObjectId.TryParse(id, out ObjectId objectId))
+            {
+                return null;
+            }
+
+            var filterId = Builders<Account>.Filter.Eq("_id", objectId);
+            var model = await _context.Account.Find(filterId).FirstOrDefaultAsync();
+
+            return model;
+
+        }
 
         public AuthenticateResult GetToken(Account user)
         {
@@ -128,7 +151,9 @@ namespace FindIt.Backend.Services.Implementations
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
+                /////////////////////////////////////////////////////////
                 new Claim(ClaimTypes.Role, user.Role.ToString())
+                ////////////////////////////////////////////////////////
             };
 
             //hard code the setting

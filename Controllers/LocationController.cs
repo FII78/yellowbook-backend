@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FindIt.Backend.Controllers
@@ -19,90 +20,60 @@ namespace FindIt.Backend.Controllers
         public class LocationsController : ControllerBase
         {
 
-            ILocationsRepositoryAsync _locationsRepository;
-            public LocationsController(ILocationsRepositoryAsync locationsRepository)
+            ILocationsService _locationsRepository;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public LocationsController(ILocationsService locationsRepository, IHttpContextAccessor httpContextAccessor)
             {
                 _locationsRepository = locationsRepository ?? throw new ArgumentNullException(nameof(locationsRepository));
-            }
+            _httpContextAccessor = httpContextAccessor;
+        }
 
-        /// <summary>
-        /// Gets all location items
-        /// </summary>
-        /// <returns>A collection of location items</returns>
-        /// <response code="200">Returns all location items</response>
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Locations>>> Get()
         {
             var locations = await _locationsRepository.GetAllAsync();
-           // var locationDTOs = locations.Select(loc => loc.ToLocationDto());
+         
             return Ok(locations);
         }
 
-        /// <summary>
-        /// Gets a location item by id
-        /// </summary>
-        /// <returns>A location item</returns>
-        /// <response code="200">Returns the requested location item</response>
-
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+      
         [HttpGet("{id}", Name = "Get")]
         public async Task<ActionResult<Locations>> Get(string id)
         {
             var existingLoc = await _locationsRepository.GetAsync(id);
             if (existingLoc == null)
-                return NotFound();
+                return NotFound("Location could not be found");
 
             return existingLoc;
         }
 
-        /// <summary>
-        /// Gets a distance between two location
-        /// </summary>
-        /// <returns>A location item</returns>
-        /// <response code="200">Returns the requested location item</response>
 
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //[HttpGet("getDiff")]
-        //public double GetDiff()
-        //{
-        //    var existingLoc =  _locationsRepository.searchDistanceBetweenLocationsAsync(location1, location2);
-            
-        //    return existingLoc;
-        //}
-
-        /// <summary>
-        /// Creates a new location item
-        /// </summary>
-        /// <returns>The created location item</returns>
-        /// <response code="200">Returns the created location item</response>
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //authorized for demo purposes
+        [Authorize(Roles = "Admin")]
         [AllowAnonymous]
             [HttpPost("addloc")]
             public async Task<ActionResult<Locations>> Create([FromBody]LocationVM locationDto)
             {
-             //   var location = locationDto.ToLocation();
 
-                var createdLoc = await _locationsRepository.CreateAsync(locationDto);
-
-                return Created("location", createdLoc);
+            string GetUserRole() => _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Role);
+            var rolecheck = GetUserRole().Equals("1");
+            if (!rolecheck)
+            {
+                return Unauthorized("You are not authorized to add new locations");
             }
+            await _locationsRepository.CreateAsync(locationDto);
 
-        /// <summary>
-        /// Updates an existing location item
-        /// </summary>
-        /// <returns>The updated location item</returns>
-        /// <response code="200">Returns the updated location item</response>
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+            return Ok(new { message = "Added a Location successfully" });
+        }
+
+       
+      
         [HttpPut]
-        public async Task<ActionResult<LocationVM>> Update(string id, [FromBody] Locations location)
+        public async Task<ActionResult<LocationVM>> Update([FromBody] Locations location)
         {
-           // locationDto.Id = id;
-          //  var location = locationDto.ToLocation();
+          
 
             var existingLoc = await _locationsRepository.GetAsync(location.Id);
             if (existingLoc == null)
@@ -113,12 +84,7 @@ namespace FindIt.Backend.Controllers
             return Ok(updatedLoc);
         }
 
-        /// <summary>
-        /// Deletes a location item
-        /// </summary>
-        /// <returns></returns>
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+     
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using System;
 using FindIt.Backend.Entities;
+using System.Collections.Generic;
 
 namespace FindIt.Backend.Controllers
 {
@@ -32,6 +33,7 @@ namespace FindIt.Backend.Controllers
         public ActionResult RegisterAsync(RegisterRequest model)
         {
              _accountService.RegisterAsync(model);
+
             return Ok(new { message = "Registration successful" });
         }
 
@@ -43,18 +45,30 @@ namespace FindIt.Backend.Controllers
 
             var authUser = _accountService.Authenticate(authenticateVm.Email, authenticateVm.Password);
 
-            if (authUser == null) throw new Exception("User is unauthorized or credential does not match");
+            if (authUser == null) return NotFound("you need to register");
 
-            var user = new Account()
-            {
-
-                FirstName = authUser.FirstName,
-                LastName = authUser.LastName,
-                Email = authUser.Email,
-                Id = authUser.Id,
-            };
-            
+            var user = _mapper.Map<Account>(authUser);
+                
             return new JsonResult(_accountService.GetToken(user));
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Account>>> Get()
+        {
+            var accounts = await _accountService.GetAllAsync();
+
+            return Ok(accounts);
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Account>> GetbyId(string id)
+        {
+            var existingAcc = await _accountService.GetAsync(id);
+            if (existingAcc == null)
+                return NotFound("Account could not be found");
+
+            return existingAcc;
         }
     }
 }

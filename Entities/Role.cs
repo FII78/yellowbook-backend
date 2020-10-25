@@ -7,7 +7,8 @@ namespace FindIt.Backend.Entities
 {
     public enum Role
     {
-        Admin,
-        User
+        
+        User,
+        Admin
     }
 }

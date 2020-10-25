@@ -16,18 +16,18 @@ using System.Threading.Tasks;
 namespace FindIt.Backend.Services.Implementations
 {
 
-    public class LocationRepositary : ILocationsRepositoryAsync
+    public class LocationService : ILocationsService
     {
         private readonly AuthDbContext _context;
         private readonly IMapper _mapper;
         //     private readonly IConfiguration _config;
 
-        public LocationRepositary(AuthDbContext context)
+        public LocationService(AuthDbContext context)
         {
             _context = context;
         }
 
-        public LocationRepositary(
+        public LocationService(
 
            IMapper mapper,
            IOptions<Settings> settings

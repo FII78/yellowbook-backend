@@ -14,6 +14,8 @@ namespace FindIt.Backend.Services.Interfaces
         Task RegisterAsync(RegisterRequest model );
         AuthenticateResponse Authenticate(string email, string password);
         AuthenticateResult GetToken(Account user);
+        Task<Account> GetAsync(string id);
+        Task<IList<Account>> GetAllAsync();
 
 
 

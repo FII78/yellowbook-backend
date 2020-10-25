@@ -11,7 +11,8 @@ namespace FindIt.Backend.Helpers
 
         {
             CreateMap<RegisterRequest, Account>();
-          
+            
+            CreateMap<AuthenticateResponse, Account>();
 
         }
     }

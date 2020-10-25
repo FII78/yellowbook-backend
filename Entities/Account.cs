@@ -12,7 +12,7 @@ namespace FindIt.Backend.Entities
     {
         public Account()
         {
-            Role = new Role();
+            Role = 0;
         }
 
         [BsonId]
@@ -27,6 +27,5 @@ namespace FindIt.Backend.Entities
         public Role Role { get; set; }
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
-        public string Password { get; internal set; }
     }
 }

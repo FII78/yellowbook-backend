@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FindIt.Backend.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,6 +22,9 @@ namespace FindIt.Backend.Models.Accounts
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+        
+        
+        public Role Role { get; set; }
 
         [Required]
         [MinLength(6)]
