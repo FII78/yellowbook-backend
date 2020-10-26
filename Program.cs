@@ -22,7 +22,7 @@ namespace FindIt.Backend
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    builder.UseUrls("http://localhost:5000/");
+                    webBuilder.UseUrls("http://localhost:5000/");
                 });
     }
 }
