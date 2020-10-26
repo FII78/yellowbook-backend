@@ -14,23 +14,14 @@ spec:
       labels:
         app: aspnetcore
         role: backend
-        version: v1
+        env: develop
     spec:
       containers:
       - name: apsnetcore
         image: gcr.io/gcr-project/sample:1.0.0
         env:
-          - name: DATABASE_URL
-            valueFrom:
-              secretKeyRef:
-                name: mongo-secret
-                key: MONGODB_URL
-  
-          - name: JWT_USER_SECRET
-            valueFrom: 
-                secretKeyRef:
-                    name: jwt-secret
-                    key: JWT_KEY
+          - name: PORT
+            value: "5000"
         resources:
           limits:
             memory: "500Mi"
@@ -38,9 +29,9 @@ spec:
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
-            path: /api/accounts
-            port: 80
+            path: /
+            port: 5000
           timeoutSeconds: 5
         ports:
         - name: backend-port
-          containerPort: 80
+          containerPort: 5000
