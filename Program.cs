@@ -13,14 +13,7 @@ namespace FindIt.Backend
     {
         public static void Main(string[] args)
         {
-            new WebHostBuilder()
-            .UseKestrel()
-            .UseContentRoot(Directory.GetCurrentDirectory())
-            .UseIISIntegration()
-            .UseStartup<Startup>()
-            .UseUrls("http://localhost:5000/")
-            .Build()
-            .Run();
+            CreateHostBuilder(args).Build().Run();
 
         }
 
@@ -29,6 +22,7 @@ namespace FindIt.Backend
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    builder.UseUrls("http://localhost:5000/");
                 });
     }
 }
