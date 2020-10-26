@@ -21,7 +21,7 @@ namespace FindIt.Backend
             .UseUrls("http://localhost:5000/")
             .Build()
             .Run();
-}
+
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
