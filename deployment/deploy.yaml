@@ -31,7 +31,7 @@ spec:
           httpGet:
             path: /
             port: 5000
-          timeoutSeconds: 5
+          timeoutSeconds: 15
         ports:
         - name: backend-port
           containerPort: 5000
