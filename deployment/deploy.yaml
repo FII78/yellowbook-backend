@@ -5,33 +5,35 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: aspnetcore
+      app: findit
       role: backend
   replicas: 1
   template:
     metadata:
-      name: findit-deployment
+      name: findit-api-deployment
       labels:
-        app: aspnetcore
+        app: findit
         role: backend
         env: develop
     spec:
       containers:
-      - name: apsnetcore
+      - name: findit
         image: gcr.io/gcr-project/sample:1.0.0
         env:
-          - name: PORT
-            value: "5000"
+          - name: ASPNETCORE_ENVIRONMENT
+            value: development
+          - name: API_PATH
+            value: /api
         resources:
           limits:
             memory: "500Mi"
             cpu: "100m"
         imagePullPolicy: Always
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 5000
-          timeoutSeconds: 15
+     #   readinessProbe:
+      #    httpGet:
+       #     path: /
+        #    port: 5000
+         # timeoutSeconds: 15
         ports:
-        - name: backend-port
+        - name: findit-port
           containerPort: 5000

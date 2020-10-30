@@ -35,13 +35,27 @@ spec:
             }
           }
         }
-        stage('Deploy') {
-          steps {
-            container('kubectl'){
-              sh("sed -i.bak 's#gcr.io/gcr-project/sample:1.0.0#${IMAGE_TAG}#' ./deployment/*.yaml")
-              sh("kubectl --namespace=${NAMESPACE} apply -f ./deployment/")
+        stage ("Deployment"){
+            steps{
+                container ("kubectl"){
+              
+               
+                sh("sed -i.bak 's#gcr.io/gcr-project/sample:1.0.0#${IMAGE_TAG}#' ./deployment/deploy.yaml")
+                sh("kubectl --namespace=${NAMESPACE} apply -f ./deployment/deploy.yaml")
+                sh("kubectl --namespace=${NAMESPACE} apply -f ./deployment/service.yaml")
+                sh("kubectl --namespace=${NAMESPACE} apply -f ./deployment/ingress.yaml")   
+         }
+         }
+        }
+        stage ("Testing. . ."){
+            steps{
+                sh 'echo Testing. . .'
             }
-          }
+        }
+        stage ("Deploy. . ."){
+            steps{
+                sh 'echo Deploying. . .'
+            }
         }
     }
 }
