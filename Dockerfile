@@ -3,19 +3,23 @@
 #Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
 #For more information, please see https://aka.ms/containercompat
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+WORKDIR /app
+EXPOSE 5000
 
 #Insall production dependencies
-WORKDIR /app
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+WORKDIR /src
 COPY *.csproj ./
-RUN dotnet restore
+RUN dotnet restore *.csproj
 
-COPY . ./
-RUN dotnet publish -c Release -o out
+COPY . .
+WORKDIR /src
+RUN dotnet build *.csproj -c Release -o /app/build
 
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 
+FROM build AS publish
+RUN dotnet publish *.csproj -c Release -o /app/publish
+FROM base AS final
 WORKDIR /app
-COPY --from=build-env /app/out .
-EXPOSE 80
-
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "FindIt.Backend.dll"]

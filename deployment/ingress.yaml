@@ -3,13 +3,16 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
-  name: findit-ingress
+  name: findit-api-ingress
 spec:
+  backend:
+    serviceName: findit-api-service
+    servicePort: 5000
   rules:
   - host: findit-backend.apps.et6nh.gebeya.co
     http:
       paths:
       - backend:
-          serviceName: findit-service
-          servicePort: 80
-        path: /
+          serviceName: findit-api-service
+          servicePort: 5000
+        path: /api

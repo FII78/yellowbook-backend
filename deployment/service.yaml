@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: findit-service
-  labels: 
-    app: aspnetcore
+  name: findit-api-service
 spec:
+  type: NodePort
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 5000
+      targetPort: 5000
   selector:
-    app: aspnetcore
+    app: findit
+    role: backend
