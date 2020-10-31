@@ -36,4 +36,4 @@ spec:
          # timeoutSeconds: 15
         ports:
         - name: findit-port
-          containerPort: 5000
+          containerPort: 80
