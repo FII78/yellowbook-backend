@@ -13,14 +13,7 @@ namespace FindIt.Backend
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder()
-            .UseKestrel()
-            .UseUrls("http://*:5000")
-            .UseIISIntegration()
-            .UseStartup<Startup>()
-            .Build();
-
-        host.Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

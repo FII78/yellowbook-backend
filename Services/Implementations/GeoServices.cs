@@ -70,7 +70,7 @@ namespace FindIt.Backend.Services.Implementations
             }
         }
 
-        public IEnumerable<NodeVM> GetAddress(double lat, double lng, int radius)
+        public IEnumerable<NodeVM> GetAddress(double lat, double lng, int radius,string tag)
         {
             try
             {
@@ -96,10 +96,12 @@ namespace FindIt.Backend.Services.Implementations
 
                     modelGeo.Id = n.Id.ToString();
                     modelGeo.Name = n.Name;
+                    modelGeo.Tag = n.Tag;
                     modelGeo.Location = cor;
-                       
-                    return modelGeo;
-
+                    if (modelGeo.Tag == tag)
+                        return modelGeo;
+                    else
+                        return null;
                 }); 
 
 
@@ -140,25 +142,48 @@ namespace FindIt.Backend.Services.Implementations
             return locationsVM;
 
         }
+        //var filterId = Builders<GeocodeModel>.Filter.Eq("Tag", tag);
+        //var model = _context.GeocodeModel.Find(filterId).ToList();
+        ////var modArr= model.ToArray();
+        ////var loca = new double[] 
+        ////{
+        ////modArr
+        ////} 
+        ////var locationsVM = new NodeVM
+        ////{
+        ////    Id = model.Id,
+        ////    Name = model.Name,
+        ////    Location = loca
+        ////}; 
+        ////to geocodemodel lewuchiw
+        //return model;
+        public async Task<IEnumerable<NodeVM>> GetByTagAsync(string tag)
+        {
+           
+            var loc = await _context.GeocodeModel.Find(emp => emp.Tag == tag).ToListAsync();
+            GeocodeModel loca=new GeocodeModel();
+            var nodes=new List<NodeVM>();
+            for (int i=0;i<loc.Count;i++)
+            {
+                loca=loc[i];
+                var locationVM = new double[]
+                {
+                loca.Location.Coordinates.X,
+                loca.Location.Coordinates.Y
+                };
+                var updatedLoc = new NodeVM
+                {
+                    Id = loca.Id,
+                    Name = loca.Name,
+                    Location = locationVM
+                };
+                nodes.Append(updatedLoc);
+                
+            }
+            return nodes;
+            
 
-        //public IEnumerable<NodeVM> GetByTag(string tag)
-        //{ 
-        //    var filterId = Builders<GeocodeModel>.Filter.Eq("Tag", tag);
-        //    var model = _context.GeocodeModel.Find(filterId).FirstOrDefault();
-        //    var loca = new double[]
-        //  {
-        //        model.Location.Coordinates.X,
-        //        model.Location.Coordinates.Y
-        //  };
-        //    var locationsVM = new NodeVM
-        //    {
-        //        Id = model.Id,
-        //        Name = model.Name,
-        //        Location = loca
-        //    };
-        //    return locationsVM;
-
-        //}
+        }
 
         public async Task<NodeVM> UpdateAsync(NodeVM location)
         {

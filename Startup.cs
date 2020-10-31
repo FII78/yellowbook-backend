@@ -2,10 +2,7 @@ using System;
 using System.Text;
 using AutoMapper;
 using FindIt.Backend.Entities;
-using FindIt.Backend.Helpers;
-using FindIt.Backend.JSettings;
 using FindIt.Backend.Middleware;
-using FindIt.Backend.Services;
 using FindIt.Backend.Services.Implementations;
 using FindIt.Backend.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -31,7 +28,7 @@ namespace FindIt.Backend
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddHttpClient();
+           
             services.AddControllers().AddNewtonsoftJson(o =>
             {
                 o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
@@ -41,6 +38,22 @@ namespace FindIt.Backend
                         options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
                         options.DatabaseName = Configuration.GetSection("MongoConnection:DatabaseName").Value;
                     });
+
+          services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+         .AddJwtBearer(options =>
+         {
+             options.TokenValidationParameters = new TokenValidationParameters
+             {
+                 ValidateIssuer = false,
+                 ValidateAudience = false,
+                 ValidateLifetime = true,
+                 ValidateIssuerSigningKey = true,
+                 ValidIssuer = Configuration["Jwt:Issuer"],
+                 ValidAudience = Configuration["Jwt:Issuer"],
+                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
+             };
+         }); 
+            services.AddHttpClient();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FindIt API", Version = "v1" });
@@ -68,26 +81,9 @@ namespace FindIt.Backend
                 });
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.Configure<JwtSettings>(Configuration.GetSection("JWT"));
-            services
-              .AddAuthorization()
-              .AddAuthentication(options =>
-              {
-                  options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                  options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                  options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-              })
-              .AddJwtBearer(options =>
-              {
-                  options.RequireHttpsMetadata = false;
-                  options.TokenValidationParameters = new TokenValidationParameters()
-                  {
-                      ValidIssuer = Configuration["JWT:Issuer"],
-                      ValidAudience = Configuration["JWT:Audience"],
-                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Secret"])),
-                      ClockSkew = TimeSpan.Zero
-                  };
-              });
+
+         
+            //services.AddAuthorization();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IGeoService, GeoServices>();
             services.AddScoped<IAccountService, AccountService>();

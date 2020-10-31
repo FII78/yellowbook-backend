@@ -44,10 +44,20 @@ namespace FindIt.Backend.Controllers
             return existingAcc;
         }
 
-        [HttpGet("NearLoc")]
-        public ActionResult<IEnumerable<GeocodeModel>> GetAddress(double lat, double lng, int radius)
+        [HttpGet("{tag}")]
+        public async Task<ActionResult<NodeVM>> GetbyTagAsync(string tag)
         {
-            var locations = _geoRepository.GetAddress(lat, lng, radius);
+            var existingAcc = await _geoRepository.GetByTagAsync(tag);
+            if (existingAcc == null)
+                return NotFound("Location could not be found");
+
+            return Ok(existingAcc);
+        }
+
+        [HttpGet("NearLoc")]
+        public ActionResult<IEnumerable<GeocodeModel>> GetAddress(double lat, double lng, int radius, string tag)
+        {
+            var locations = _geoRepository.GetAddress(lat, lng, radius, tag);
             if (locations == null)
             {
                 return BadRequest();

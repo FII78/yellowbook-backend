@@ -10,14 +10,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
-using FindIt.Backend.JSettings;
 
 namespace FindIt.Backend.Services.Implementations
 {
@@ -27,7 +25,7 @@ namespace FindIt.Backend.Services.Implementations
         private readonly AuthDbContext _context;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
-        private readonly JwtSettings _jwtsettings;
+       
         public AccountService(AuthDbContext context)
         {
             _context = context;
@@ -37,13 +35,13 @@ namespace FindIt.Backend.Services.Implementations
            
            IMapper mapper,
            IOptions<Settings> settings,
-            IConfiguration config,
-            IOptionsSnapshot<JwtSettings> jwtsettings)
+            IConfiguration config
+            )
         {
             _context = new AuthDbContext(settings);
             _mapper = mapper;
             _config = config;
-            _jwtsettings = jwtsettings.Value;
+           
         }
        
 
@@ -155,13 +153,13 @@ namespace FindIt.Backend.Services.Implementations
             };
 
             //hard code the setting
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtsettings.Secret));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(_jwtsettings.ExpirationInDays));
-
+            var expires = DateTime.Now.AddMinutes(120);
+           
             var token = new JwtSecurityToken(
-                issuer: _jwtsettings.Issuer,
-                audience: _jwtsettings.Issuer,
+                issuer: _config["Jwt:Issuer"],
+                audience: _config["Jwt:Issuer"],
                 claims,
                 expires: expires,
                 signingCredentials: creds

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FindIt.Backend.Entities;
+using FindIt.Backend.Models;
 using FindIt.Backend.Models.Accounts;
 
 namespace FindIt.Backend.Helpers
@@ -13,6 +14,7 @@ namespace FindIt.Backend.Helpers
             CreateMap<RegisterRequest, Account>();
             
             CreateMap<AuthenticateResponse, Account>();
+            CreateMap<GeocodeModel, NodeVM>();
 
         }
     }
