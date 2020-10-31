@@ -99,9 +99,6 @@ C:/Users/Fitsum/source/repos/FindIt.Backend.Failed/bin/Debug/netcoreapp3.1/Newto
 /home/nardos/devops/Capstone/FindIt-api/YellowBook-Backend/obj/Debug/netcoreapp3.1/FindIt.Backend.genruntimeconfig.cache
 C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.Backend.AssemblyInfoInputs.cache
 C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.Backend.AssemblyInfo.cs
-C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.Backend.csproj.CoreCompileInputs.cache
-C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.Backend.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.Backend.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.Backend.dll
 C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.Backend.pdb
 C:\Users\Fitsum\source\repos\FindIt.Backend\bin\Debug\netcoreapp3.1\appsettings.Development.json
@@ -146,3 +143,10 @@ C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\staticwebass
 C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\staticwebassets\FindIt.Backend.StaticWebAssets.xml
 C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.Backend.genruntimeconfig.cache
 C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.Backend.csprojAssemblyReference.cache
+C:\Users\Fitsum\source\repos\FindIt.Backend\bin\Debug\netcoreapp3.1\MongoDB.Driver.Legacy.dll
+C:\Users\Fitsum\source\repos\FindIt.Backend\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\Fitsum\source\repos\FindIt.Backend\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\Fitsum\source\repos\FindIt.Backend\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.Backend.csproj.CoreCompileInputs.cache
+C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.Backend.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.Backend.MvcApplicationPartsAssemblyInfo.cache

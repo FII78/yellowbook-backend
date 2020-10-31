@@ -47,13 +47,10 @@ namespace FindIt.Backend.Services.Implementations
         }
        
 
-        public async Task RegisterAsync(RegisterRequest model)
+        public async Task RegisterAsync(RegisterRequest model, int pageId=1)
         {
 
-            // validation
-
-            if (string.IsNullOrWhiteSpace(model.Password))
-                throw new AppException("Password is required");
+         
 
             var collection = _context.Account.AsQueryable();
 
@@ -64,9 +61,9 @@ namespace FindIt.Backend.Services.Implementations
             if (result)
                 throw new AppException("Username \"" + model.Email + "\" is already taken");
 
-                       
-            // map model to new account object
 
+            // map model to new account object
+           
             var account = new Account()
             {
                 Title=model.Title,
@@ -74,13 +71,16 @@ namespace FindIt.Backend.Services.Implementations
                 LastName=model.LastName,
                 Email=model.Email,
                 AcceptTerms=model.AcceptTerms,
-                Role=model.Role
+               
             };
+
+            if (pageId == 1) { account.Role = "User"; }
+            else if (pageId == 2) {account.Role = "Admin"; }
 
             // first registered account is an admin
             // var isFirstAccount = await _context.Account.EstimatedDocumentCountAsync() == 0;
             // account.Role = isFirstAccount ? Role.Admin : Role.User;
-           // account.Role = (Role)(account.Role != null ? 0 : 1);
+            // account.Role = (Role)(account.Role != null ? 0 : 1);
             account.Created = DateTime.UtcNow;
 
             // hash password
@@ -151,9 +151,7 @@ namespace FindIt.Backend.Services.Implementations
                 new Claim(JwtRegisteredClaimNames.UniqueName, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
-                /////////////////////////////////////////////////////////
-                new Claim(ClaimTypes.Role, user.Role.ToString())
-                ////////////////////////////////////////////////////////
+                new Claim(ClaimTypes.Role, user.Role)
             };
 
             //hard code the setting

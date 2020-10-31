@@ -10,11 +10,7 @@ namespace FindIt.Backend.Entities
 {
     public class Account
     {
-        public Account()
-        {
-            Role = 0;
-        }
-
+       
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
@@ -24,7 +20,7 @@ namespace FindIt.Backend.Entities
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public bool AcceptTerms { get; set; }
-        public Role Role { get; set; }
+        public string Role { get; set; }
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
     }

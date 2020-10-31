@@ -23,9 +23,6 @@ namespace FindIt.Backend.Models.Accounts
         [EmailAddress]
         public string Email { get; set; }
         
-        
-        public Role Role { get; set; }
-
         [Required]
         [MinLength(6)]
         public string Password { get; set; }

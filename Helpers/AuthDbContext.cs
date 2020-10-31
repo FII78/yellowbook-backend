@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using MongoDB.Driver.GeoJsonObjectModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FindIt.Backend.Helpers
 {
-    public   class AuthDbContext  
+    public class AuthDbContext
 
     {
         private readonly IMongoDatabase _database;
@@ -43,17 +44,21 @@ namespace FindIt.Backend.Helpers
 
         }
 
-        public IMongoCollection<Locations> Locations
+       
+        public IMongoCollection<GeocodeModel> GeocodeModel
         {
             get
             {
-
-                return _database.GetCollection<Locations>("Locations");
+               
+                return _database.GetCollection<GeocodeModel>("GeocodeModel");
+            }
+            set {
+              
+            }
 
             }
-            set { }
+           
 
-        }
     }
 
 }

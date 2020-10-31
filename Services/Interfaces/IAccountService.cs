@@ -11,7 +11,7 @@ namespace FindIt.Backend.Services.Interfaces
     public interface IAccountService
     {
 
-        Task RegisterAsync(RegisterRequest model );
+        Task RegisterAsync(RegisterRequest model , int pageId);
         AuthenticateResponse Authenticate(string email, string password);
         AuthenticateResult GetToken(Account user);
         Task<Account> GetAsync(string id);

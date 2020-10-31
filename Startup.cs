@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 
 namespace FindIt.Backend
 {
@@ -31,7 +32,10 @@ namespace FindIt.Backend
         {
 
             services.AddHttpClient();
-            services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.IgnoreNullValues = true);
+            services.AddControllers().AddNewtonsoftJson(o =>
+            {
+                o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
             services.Configure<Settings>(options =>
                     {
                         options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
@@ -64,7 +68,7 @@ namespace FindIt.Backend
                 });
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
+            services.Configure<JwtSettings>(Configuration.GetSection("JWT"));
             services
               .AddAuthorization()
               .AddAuthentication(options =>
@@ -76,7 +80,7 @@ namespace FindIt.Backend
               .AddJwtBearer(options =>
               {
                   options.RequireHttpsMetadata = false;
-                  options.TokenValidationParameters = new TokenValidationParameters
+                  options.TokenValidationParameters = new TokenValidationParameters()
                   {
                       ValidIssuer = Configuration["JWT:Issuer"],
                       ValidAudience = Configuration["JWT:Audience"],
@@ -85,8 +89,7 @@ namespace FindIt.Backend
                   };
               });
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddTransient<ILocationsService, LocationService>();
-
+            services.AddTransient<IGeoService, GeoServices>();
             services.AddScoped<IAccountService, AccountService>();
             
 

@@ -2,12 +2,10 @@
 using FindIt.Backend.Models.Accounts;
 using FindIt.Backend.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using System;
 using FindIt.Backend.Entities;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FindIt.Backend.Controllers
 {
@@ -30,9 +28,9 @@ namespace FindIt.Backend.Controllers
 
         [HttpPost("register")]
         
-        public ActionResult RegisterAsync(RegisterRequest model)
+        public ActionResult RegisterAsync(RegisterRequest model,int pageId)
         {
-             _accountService.RegisterAsync(model);
+             _accountService.RegisterAsync(model,pageId);
 
             return Ok(new { message = "Registration successful" });
         }
@@ -45,7 +43,7 @@ namespace FindIt.Backend.Controllers
 
             var authUser = _accountService.Authenticate(authenticateVm.Email, authenticateVm.Password);
 
-            if (authUser == null) return NotFound("you need to register");
+            if (authUser == null) return NotFound("user not registred");
 
             var user = _mapper.Map<Account>(authUser);
                 
