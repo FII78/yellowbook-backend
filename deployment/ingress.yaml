@@ -9,7 +9,7 @@ spec:
     serviceName: findit-api-service
     servicePort: 5000
   rules:
-  - host: findit-backend.apps.et6nh.gebeya.co
+  - host: findit-backend.exam.et6nh.gebeya.co
     http:
       paths:
       - backend:
