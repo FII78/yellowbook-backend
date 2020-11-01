@@ -30,7 +30,7 @@ namespace FindIt.Backend.Controllers
         
         public ActionResult RegisterAsync(RegisterRequest model,int pageId)
         {
-             _accountService.RegisterAsync(model,pageId);
+            // _accountService.RegisterAsync(model,pageId);
 
             return Ok(new { message = "Registration successful" });
         }
