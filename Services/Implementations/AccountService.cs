@@ -34,7 +34,7 @@ namespace FindIt.Backend.Services.Implementations
         public AccountService(
            
            IMapper mapper,
-           IOptions<Settings> settings,
+           IOptions<MongoSettings> settings,
             IConfiguration config
             )
         {

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7QThhfz237tx5naKwL2J3oQ/SORgkoUItKy4AHA3WCl2PfGe23rPpbtgPA57pru5XYZYvF6/mpRxaN/lcbS3KQ==",
+  "dgSpecHash": "k/cJPNL31qZjbVc6ERVHZXmzN1eZfi658GjZs3OPLVjIPKbPFvxFYrr3LPo958BdyszT8IycMavB2Fpo+LRJEQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Fitsum\\source\\repos\\FindIt.Backend\\FindIt.Backend.csproj",
+  "projectFilePath": "C:\\Users\\Fitsum\\source\\repos\\FindIt.Backend\\FindIt.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Fitsum\\.nuget\\packages\\automapper\\10.1.0\\automapper.10.1.0.nupkg.sha512",
     "C:\\Users\\Fitsum\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.0\\automapper.extensions.microsoft.dependencyinjection.8.1.0.nupkg.sha512",

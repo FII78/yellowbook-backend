@@ -1,19 +1,15 @@
-﻿using MongoDB.Bson;
+﻿using FindIt.DataAccess.Entities;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver.GeoJsonObjectModel;
-using System.Text.Json.Serialization;
 
 namespace FindIt.Backend.Entities
-{  
+{
     [BsonIgnoreExtraElements]
-    public class GeocodeModel
+    public class GeocodeModel:BaseEntity
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-
+       
         [BsonElement("location")]
-      
         public GeoJsonPoint<GeoJson2DCoordinates> Location { get; set; }
 
         [BsonElement("name")]

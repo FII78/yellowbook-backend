@@ -1,19 +1,11 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using FindIt.DataAccess.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FindIt.Backend.Entities
 {
-    public class Account
+    public class Account:BaseEntity
     {
        
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
         public string Title { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

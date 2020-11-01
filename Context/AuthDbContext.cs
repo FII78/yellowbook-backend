@@ -20,7 +20,7 @@ namespace FindIt.Backend.Helpers
         {
         }
 
-        public AuthDbContext(IOptions<Settings> settings)
+        public AuthDbContext(IOptions<MongoSettings> settings)
         {
             var client = new MongoClient(settings.Value.ConnectionString);
             if (client != null)

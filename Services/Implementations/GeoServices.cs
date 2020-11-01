@@ -29,7 +29,7 @@ namespace FindIt.Backend.Services.Implementations
         public GeoServices(
 
            IMapper mapper,
-           IOptions<Settings> settings
+           IOptions<MongoSettings> settings
        
             )
         {

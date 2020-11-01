@@ -6160,9 +6160,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Fitsum\\source\\repos\\FindIt.Backend\\FindIt.Backend.csproj",
-      "projectName": "FindIt.Backend",
-      "projectPath": "C:\\Users\\Fitsum\\source\\repos\\FindIt.Backend\\FindIt.Backend.csproj",
+      "projectUniqueName": "C:\\Users\\Fitsum\\source\\repos\\FindIt.Backend\\FindIt.API.csproj",
+      "projectName": "FindIt.API",
+      "projectPath": "C:\\Users\\Fitsum\\source\\repos\\FindIt.Backend\\FindIt.API.csproj",
       "packagesPath": "C:\\Users\\Fitsum\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Fitsum\\source\\repos\\FindIt.Backend\\obj\\",
       "projectStyle": "PackageReference",

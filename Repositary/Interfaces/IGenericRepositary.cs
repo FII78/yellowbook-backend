@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FindIt.Backend.Entities
+namespace FindIt.API.Repositary.Interfaces
 {
-    public class Settings
+    public interface IGenericRepositary
     {
-        public string ConnectionString;
-        public string DatabaseName;
+        
     }
 }

@@ -36,11 +36,8 @@ namespace FindIt.Backend
                     .AllowAnyMethod()
                     .AllowAnyHeader());
             });
-            services.AddControllers().AddNewtonsoftJson(o =>
-            {
-                o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            });
-            services.Configure<Settings>(options =>
+           
+            services.Configure<MongoSettings>(options =>
                     {
                         options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
                         options.DatabaseName = Configuration.GetSection("MongoConnection:DatabaseName").Value;
@@ -87,6 +84,7 @@ namespace FindIt.Backend
                     }
                 });
             });
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
          
@@ -94,7 +92,10 @@ namespace FindIt.Backend
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IGeoService, GeoServices>();
             services.AddScoped<IAccountService, AccountService>();
-            
+            services.AddControllers().AddNewtonsoftJson(o =>
+            {
+                o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
 
         }
 
