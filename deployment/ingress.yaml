@@ -9,7 +9,7 @@ spec:
     serviceName: findit-api-service
     servicePort: 80
   rules:
-  - host: findit-backend.exam.et6nh.gebeya.co
+  - host: findit-backend.app.et6nh.gebeya.co
     http:
       paths:
       - backend:
