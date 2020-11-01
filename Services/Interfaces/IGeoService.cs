@@ -1,4 +1,5 @@
-﻿using FindIt.Backend.Entities;
+﻿using FindIt.API.Models;
+using FindIt.Backend.Entities;
 using FindIt.Backend.Models;
 using MongoDB.Driver;
 using System;
@@ -12,7 +13,7 @@ namespace FindIt.Backend.Services.Interfaces
     public interface IGeoService
     {
         Task AddEntryAsync(NodeVM model);
-        IEnumerable<NodeVM> GetAddress(double lat, double lng, int radius, string tag);
+        IEnumerable<NodeVM> GetAddress(NodeForNearestVM points);
         Task<IList<GeocodeModel>> GetAllAsync();
         NodeVM  Get(string id);
         Task<NodeVM> UpdateAsync(NodeVM location);

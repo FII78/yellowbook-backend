@@ -1,4 +1,5 @@
-﻿using FindIt.Backend.Entities;
+﻿using FindIt.API.Models;
+using FindIt.Backend.Entities;
 using FindIt.Backend.Models;
 using FindIt.Backend.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
@@ -25,7 +26,7 @@ namespace FindIt.Backend.Controllers
             _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpGet]
+        [HttpGet("getall")]
         public async Task<ActionResult<IEnumerable<GeocodeModel>>> Get()
         {
             var accounts = await _geoRepository.GetAllAsync();
@@ -34,7 +35,7 @@ namespace FindIt.Backend.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("getbyid/{id}")]
         public ActionResult<NodeVM> GetbyId(string id)
         {
             var existingAcc = _geoRepository.Get(id);
@@ -44,7 +45,7 @@ namespace FindIt.Backend.Controllers
             return existingAcc;
         }
 
-        [HttpGet("{tag}")]
+        [HttpGet("getbytag/{tag}")]
         public async Task<ActionResult<NodeVM>> GetbyTagAsync(string tag)
         {
             var existingAcc = await _geoRepository.GetByTagAsync(tag);
@@ -55,9 +56,9 @@ namespace FindIt.Backend.Controllers
         }
 
         [HttpGet("NearLoc")]
-        public ActionResult<IEnumerable<GeocodeModel>> GetAddress(double lat, double lng, int radius, string tag)
+        public ActionResult<IEnumerable<GeocodeModel>> GetAddress(NodeForNearestVM points)
         {
-            var locations = _geoRepository.GetAddress(lat, lng, radius, tag);
+            var locations = _geoRepository.GetAddress(points);
             if (locations == null)
             {
                 return BadRequest();
@@ -84,7 +85,7 @@ namespace FindIt.Backend.Controllers
 
         }
 
-        [HttpPut]
+        [HttpPut("updategeo")]
         public async Task<ActionResult<NodeVM>> Update([FromBody] NodeVM location)
         {
 
@@ -99,7 +100,7 @@ namespace FindIt.Backend.Controllers
         }
 
 
-        [HttpDelete("{id}")]
+        [HttpDelete("deletebyid/{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             var existingLoc =  _geoRepository.Get(id);

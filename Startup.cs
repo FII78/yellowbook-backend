@@ -95,6 +95,7 @@ namespace FindIt.Backend
             services.AddControllers().AddNewtonsoftJson(o =>
             {
                 o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                             
             });
 
         }

@@ -1,18 +1,13 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver.GeoJsonObjectModel;
 
-namespace FindIt.Backend.Models
+namespace FindIt.API.Models.GeoLocation
 {
-    public class NodeBase
+    public class BaseNode
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-
-        [BsonElement("location")]
-        public GeoJsonPoint<GeoJson2DCoordinates> Location { get; set; }
-
         [BsonElement("name")]
         public string Name { get; set; }
 
@@ -21,6 +16,5 @@ namespace FindIt.Backend.Models
 
         [BsonElement("description")]
         public string Description { get; set; }
-
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FindIt.API.Models;
 using FindIt.Backend.Entities;
 using FindIt.Backend.Helpers;
 using FindIt.Backend.Models;
@@ -66,19 +67,19 @@ namespace FindIt.Backend.Services.Implementations
             }
         }
 
-        public IEnumerable<NodeVM> GetAddress(double lat, double lng, int radius,string tag)
+        public IEnumerable<NodeVM> GetAddress(NodeForNearestVM points)
         {
             try
             {
-
-                var filterPoint = GeoJson.Point(new GeoJson2DCoordinates(lng, lat));
+                var METERS_PER_MILE = 1609.34;
+                var filterPoint = GeoJson.Point(new GeoJson2DCoordinates(points.Longitude, points.Latitude));
 
                 var filter = new FilterDefinitionBuilder<GeocodeModel>()
-                             .NearSphere(n => n.Location, filterPoint, radius);
+                             .NearSphere(n => n.Location, filterPoint, points.Radius* METERS_PER_MILE);
 
                 var model = new GeocodeModel();
            
-                  
+        
               return _context.GeocodeModel.Find(filter).ToList()
                     .Select(n =>
                 {
@@ -93,11 +94,12 @@ namespace FindIt.Backend.Services.Implementations
                     modelGeo.Id = n.Id.ToString();
                     modelGeo.Name = n.Name;
                     modelGeo.Tag = n.Tag;
+                    modelGeo.Description = n.Description;
                     modelGeo.Location = cor;
-                    if (modelGeo.Tag == tag)
+                   
                         return modelGeo;
-                    else
-                        return null;
+                   
+                        
                 }); 
 
 
