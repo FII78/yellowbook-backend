@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FindIt.Backend.Services.Interfaces
 {
-    public interface IGeoService
+    public interface IGeoRepositary
     {
       
     }

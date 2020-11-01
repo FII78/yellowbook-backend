@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FindIt.Backend.Services.Interfaces
 {
-    public interface IAccountService
+    public interface IAccountRepositary
     {
 
        

@@ -46,18 +46,14 @@ namespace FindIt.Backend.Services.Implementations
             {
                 var point = new GeoJson2DCoordinates(model.Location[0], model.Location[1]);
                 var pnt = new GeoJsonPoint<GeoJson2DCoordinates>(point);
-                //double[] pnt =
-                //{
-                //    model.Location.Lon,
-                //    model.Location.Lat
-                //};
-
+                
                 var modelcreated = new GeocodeModel
                 {
                     Name = model.Name,
+                    Tag=model.Tag,
+                    Description=model.Description,
                     Location = pnt
                 };
-
 
                 await _context.GeocodeModel.InsertOneAsync(modelcreated);
 

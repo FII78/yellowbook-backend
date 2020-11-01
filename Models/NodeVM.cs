@@ -1,10 +1,5 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FindIt.Backend.Models
 {
@@ -16,9 +11,14 @@ namespace FindIt.Backend.Models
 
         [BsonElement("location")]
         public double[] Location { get; set; }
+
         [BsonElement("name")]
         public string Name { get; set; }
+
         [BsonElement("tag")]
         public string Tag { get; set; }
+
+        [BsonElement("description")]
+        public string Description { get; set; }
     }
 }

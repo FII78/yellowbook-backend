@@ -19,7 +19,7 @@ using System.Security.Claims;
 
 namespace FindIt.Backend.Services.Implementations
 {
-    public class AccountService : IAccountService
+    public class AccountRepositary : IAccountRepositary
     {
 
         

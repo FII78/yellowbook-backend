@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace FindIt.Backend.Services.Implementations
 {
-    public class GeoServices
+    public class GeoRepositary
     {
       
 
