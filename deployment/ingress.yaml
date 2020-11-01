@@ -7,12 +7,12 @@ metadata:
 spec:
   backend:
     serviceName: findit-api-service
-    servicePort: 5000
+    servicePort: 80
   rules:
   - host: findit-backend.app.et6nh.gebeya.co
     http:
       paths:
       - backend:
           serviceName: findit-api-service
-          servicePort: 5000
+          servicePort: 80
         path: /api
