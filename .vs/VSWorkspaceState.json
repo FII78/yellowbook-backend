@@ -1,11 +1,16 @@
 {
   "ExpandedNodes": [
     "",
+    "\\Context",
+    "\\Controllers",
+    "\\Entities",
+    "\\Middleware",
+    "\\Models",
+    "\\Models\\GeoLocation",
     "\\Properties",
-    "\\Repositary",
-    "\\Repositary\\Implementations",
-    "\\Repositary\\Interfaces"
+    "\\Services",
+    "\\Services\\Interfaces"
   ],
-  "SelectedNode": "\\Startup.cs",
+  "SelectedNode": "\\Services\\Implementations\\GeoServices.cs",
   "PreviewInSolutionExplorer": false
 }

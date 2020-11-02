@@ -1,4 +1,5 @@
 ﻿using FindIt.API.Models;
+using FindIt.API.Models.GeoLocation;
 using FindIt.Backend.Entities;
 using FindIt.Backend.Models;
 using FindIt.Backend.Services.Interfaces;
@@ -27,7 +28,7 @@ namespace FindIt.Backend.Controllers
         }
 
         [HttpGet("getall")]
-        public async Task<ActionResult<IEnumerable<GeocodeModel>>> Get()
+        public async Task<ActionResult<IEnumerable<NodeVM>>> Get()
         {
             var accounts = await _geoRepository.GetAllAsync();
 
@@ -56,7 +57,7 @@ namespace FindIt.Backend.Controllers
         }
 
         [HttpGet("NearLoc")]
-        public ActionResult<IEnumerable<GeocodeModel>> GetAddress(NodeForNearestVM points)
+        public ActionResult<IEnumerable<NodeVM>> GetAddress([FromBody] NodeForNearestVM points)
         {
             var locations = _geoRepository.GetAddress(points);
             if (locations == null)
@@ -85,7 +86,7 @@ namespace FindIt.Backend.Controllers
 
         }
 
-        [HttpPut("updategeo")]
+        [HttpPost("updategeo")]
         public async Task<ActionResult<NodeVM>> Update([FromBody] NodeVM location)
         {
 
@@ -99,6 +100,20 @@ namespace FindIt.Backend.Controllers
             return Ok(updatedLoc);
         }
 
+        [HttpPost("updategeoname")]
+        public async Task<ActionResult> UpdateByName([FromBody] NodeForUpdateName location)
+        {
+
+
+            var existingLoc = _geoRepository.Get(location.Id);
+            if (existingLoc == null)
+                return NotFound();
+
+             await _geoRepository.UpdatebyNameAsync(location);
+
+            return Ok(new { message = "Updated a Location successfully" });
+        }
+
 
         [HttpDelete("deletebyid/{id}")]
         public async Task<IActionResult> Delete(string id)
@@ -109,7 +124,7 @@ namespace FindIt.Backend.Controllers
 
             await _geoRepository.DeleteAsync(id);
 
-            return NoContent();
+            return Ok(new { message = "deleted a Location successfully" });
         }
 
 

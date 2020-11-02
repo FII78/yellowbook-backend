@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using FindIt.API.Models;
+using FindIt.API.Models.GeoLocation;
 using FindIt.Backend.Entities;
 using FindIt.Backend.Helpers;
 using FindIt.Backend.Models;
 using FindIt.Backend.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -73,9 +75,9 @@ namespace FindIt.Backend.Services.Implementations
             {
                 var METERS_PER_MILE = 1609.34;
                 var filterPoint = GeoJson.Point(new GeoJson2DCoordinates(points.Longitude, points.Latitude));
-
+                var distanc_Max = points.Radius * METERS_PER_MILE;
                 var filter = new FilterDefinitionBuilder<GeocodeModel>()
-                             .NearSphere(n => n.Location, filterPoint, points.Radius* METERS_PER_MILE);
+                             .NearSphere(n => n.Location, filterPoint, distanc_Max);
 
                 var model = new GeocodeModel();
            
@@ -96,9 +98,10 @@ namespace FindIt.Backend.Services.Implementations
                     modelGeo.Tag = n.Tag;
                     modelGeo.Description = n.Description;
                     modelGeo.Location = cor;
-                   
+                    if (modelGeo.Tag == points.Tag)
                         return modelGeo;
-                   
+                    else
+                        return null;
                         
                 }); 
 
@@ -111,10 +114,37 @@ namespace FindIt.Backend.Services.Implementations
             return null;
         }
 
-
-        public async Task<IList<GeocodeModel>> GetAllAsync()
+      
+        public async Task<IEnumerable<NodeVM>> GetAllAsync()
         {
-           return await _context.GeocodeModel.Find(Locations => true).ToListAsync();
+           var locations= await _context.GeocodeModel.Find(Locations => true).ToListAsync();
+            var locationsleng = locations.Count();
+            var allocation =  new List<NodeVM>();
+            var loca = new GeocodeModel();
+         
+           for (int i = 0; i < locationsleng; i++)
+            {
+                loca = locations[i];
+
+                var locationVM = new double[]
+               {
+                loca.Location.Coordinates.X,
+                loca.Location.Coordinates.Y
+               };
+                var updatedLoc = new NodeVM
+                {
+                    Id = loca.Id,
+                    Name = loca.Name,
+                    Tag=loca.Tag,
+                    Description=loca.Description,
+                    Location = locationVM
+                };
+
+                allocation.Add(updatedLoc);
+                
+            }
+            return allocation;
+
         }
 
         public NodeVM Get(string id)
@@ -135,6 +165,8 @@ namespace FindIt.Backend.Services.Implementations
             {
                 Id = model.Id,
                 Name = model.Name,
+                Tag=model.Tag,
+                Description=model.Description,
                 Location = loca
             };
             return locationsVM;
@@ -161,7 +193,9 @@ namespace FindIt.Backend.Services.Implementations
             var loc = await _context.GeocodeModel.Find(emp => emp.Tag == tag).ToListAsync();
             GeocodeModel loca=new GeocodeModel();
             var nodes=new List<NodeVM>();
-            for (int i=0;i<loc.Count;i++)
+            var no_of_loc = loc.Count();
+
+            for (int i=0;i<no_of_loc;i++)
             {
                 loca=loc[i];
                 var locationVM = new double[]
@@ -173,9 +207,11 @@ namespace FindIt.Backend.Services.Implementations
                 {
                     Id = loca.Id,
                     Name = loca.Name,
+                    Tag=loca.Tag,
+                    Description=loca.Description,
                     Location = locationVM
                 };
-                nodes.Append(updatedLoc);
+                nodes.Add(updatedLoc);
                 
             }
             return nodes;
@@ -195,7 +231,11 @@ namespace FindIt.Backend.Services.Implementations
                 loc.Id = location.Id;
                 loc.Name = location.Name;
                 loc.Location = pnt;
+                loc.Tag = location.Tag;
+                loc.Description = location.Description;
             }
+            var filter = new BsonDocument("Id", location.Id);
+           
             var locationVM = new double[]
             {
                 loc.Location.Coordinates.X,
@@ -203,11 +243,25 @@ namespace FindIt.Backend.Services.Implementations
             };
             var updatedLoc = new NodeVM
             {
-                Id=loc.Id,
+                Id = loc.Id,
                 Name = loc.Name,
-                Location=locationVM
+                Location = locationVM,
+                Tag = loc.Tag,
+                Description = loc.Description
             };
+
             return updatedLoc;
+        }
+        public async Task UpdatebyNameAsync(NodeForUpdateName location)
+        {
+
+      
+
+            var filter = Builders<GeocodeModel>.Filter.Eq("Id", location.Id);
+            var update = Builders<GeocodeModel>.Update.Set("name", location.Name);
+
+           await _context.GeocodeModel.UpdateOneAsync(filter, update);
+                       
         }
 
         public async Task DeleteAsync(string id)

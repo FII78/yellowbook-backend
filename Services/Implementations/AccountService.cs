@@ -45,10 +45,10 @@ namespace FindIt.Backend.Services.Implementations
         }
        
 
-        public async Task RegisterAsync(RegisterRequest model, int pageId=1)
+        public async Task RegisterAsync( RegisterRequest model, int pageId = 1)
         {
 
-         
+            //
 
             var collection = _context.Account.AsQueryable();
 
@@ -61,19 +61,28 @@ namespace FindIt.Backend.Services.Implementations
 
 
             // map model to new account object
-           
+            //var account = new Account()
+            //{
+            //    Title = "test title",
+            //    FirstName = "test first name",
+            //    LastName = "test last name",
+            //    Email = "test email",
+            //    AcceptTerms = true,
+            //    Role="User"
+            //};
+
             var account = new Account()
             {
-                Title=model.Title,
-                FirstName=model.FirstName,
-                LastName=model.LastName,
-                Email=model.Email,
-                AcceptTerms=model.AcceptTerms,
-               
+                Title = model.Title,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                AcceptTerms = model.AcceptTerms,
+
             };
 
             if (pageId == 1) { account.Role = "User"; }
-            else if (pageId == 2) {account.Role = "Admin"; }
+            else if (pageId == 2) { account.Role = "Admin"; }
 
             // first registered account is an admin
             // var isFirstAccount = await _context.Account.EstimatedDocumentCountAsync() == 0;
@@ -82,7 +91,8 @@ namespace FindIt.Backend.Services.Implementations
             account.Created = DateTime.UtcNow;
 
             // hash password
-            account.PasswordHash = BC.HashPassword(model.Password);
+           // model.Password
+            account.PasswordHash = BC.HashPassword("abc123abc123");
 
             // save account
             await _context.Account.InsertOneAsync(account);

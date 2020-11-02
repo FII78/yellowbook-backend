@@ -23,14 +23,14 @@ namespace FindIt.Backend.Controllers
             _accountService = accountService;
             _mapper = mapper;
         }
-        
 
-
+         
         [HttpPost("register")]
-        
-        public ActionResult RegisterAsync(RegisterRequest model,int pageId)
+
+        public async Task<ActionResult> RegisterAsync(RegisterRequest model, int pageId)
         {
-             _accountService.RegisterAsync(model,pageId);
+
+            await _accountService.RegisterAsync(model,pageId);
 
             return Ok(new { message = "Registration successful" });
         }
