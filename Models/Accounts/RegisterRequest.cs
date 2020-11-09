@@ -10,10 +10,7 @@ namespace FindIt.Backend.Models.Accounts
 {
     public class RegisterRequest
     {
-        [Required (ErrorMessage = "Username is required")]
-        [StringLength(4)]
-        public string Title { get; set; }
-
+        
         [Required(ErrorMessage = "Username is required")]
         [MaxLength(30, ErrorMessage ="First name can not be greater than 30 charachters")]
         public string FirstName { get; set; }
