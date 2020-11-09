@@ -53,10 +53,7 @@ namespace FindIt.Backend.Services.Implementations
             {
                 throw new ApiException($"Invalid request because nothing to process");
             }
-            if (pageId != 1 || pageId != 2)
-            {
-                throw new ApiException($"Invalid request , will not be able to assign role");
-            }
+             
             var userWithSameEmail = await _context.Account.Find(user => user.Email == model.Email).CountDocumentsAsync();
 
             if (userWithSameEmail > 0)
