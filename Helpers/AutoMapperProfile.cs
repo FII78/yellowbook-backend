@@ -12,8 +12,8 @@ namespace FindIt.Backend.Helpers
 
         {
             CreateMap<RegisterRequest, Account>();
-            
             CreateMap<AuthenticateResponse, Account>();
+            CreateMap<Account, AuthenticateResponse>();
             CreateMap<GeocodeModel, NodeVM>();
 
         }

@@ -13,7 +13,6 @@ namespace FindIt.Backend.Entities
         public string PasswordHash { get; set; }
         public bool AcceptTerms { get; set; }
         public string Role { get; set; }
-        public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }
     }
 }

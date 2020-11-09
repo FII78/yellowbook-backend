@@ -1,8 +1,10 @@
-﻿using FindIt.API.Models;
+﻿using FindIt.API.Helpers;
+using FindIt.API.Models;
 using FindIt.API.Models.GeoLocation;
 using FindIt.Backend.Entities;
 using FindIt.Backend.Models;
 using FindIt.Backend.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -14,6 +16,7 @@ namespace FindIt.Backend.Controllers
 {
 
     [Route("api/geo")]
+    [Authorize]
     [ApiController]
     public class GeoController : ControllerBase
     {
@@ -75,6 +78,7 @@ namespace FindIt.Backend.Controllers
 
 
         [HttpPost("addgeo")]
+        [ValidateModel]
         //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<GeocodeModel>> CreateAsync(NodeVM basem)
         {
@@ -86,7 +90,8 @@ namespace FindIt.Backend.Controllers
 
         }
 
-        [HttpPost("updategeo")]
+        [HttpPut("updategeo")]
+        [ValidateModel]
         public async Task<ActionResult<NodeVM>> Update([FromBody] NodeVM location)
         {
 
@@ -100,7 +105,8 @@ namespace FindIt.Backend.Controllers
             return Ok(updatedLoc);
         }
 
-        [HttpPost("updategeoname")]
+        [HttpPatch("updategeoname")]
+        [ValidateModel]
         public async Task<ActionResult> UpdateByName([FromBody] NodeForUpdateName location)
         {
 

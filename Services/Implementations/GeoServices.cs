@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FindIt.API.Helpers;
 using FindIt.API.Models;
 using FindIt.API.Models.GeoLocation;
 using FindIt.Backend.Entities;
@@ -80,12 +81,12 @@ namespace FindIt.Backend.Services.Implementations
                              .NearSphere(n => n.Location, filterPoint, distanc_Max);
 
                 var model = new GeocodeModel();
-           
+                var modelGeo = new NodeVM();
         
               return _context.GeocodeModel.Find(filter).ToList()
                     .Select(n =>
                 {
-                    var modelGeo = new NodeVM();
+                   
 
                     var cor = new double[]
                     {
@@ -187,34 +188,38 @@ namespace FindIt.Backend.Services.Implementations
         ////}; 
         ////to geocodemodel lewuchiw
         //return model;
+            //        db.places.find( {
+            //  loc: { $geoWithin: { $centerSphere: [ [ -88, 30 ], 10/3963.2 ] }
+            //}
+            //} )
         public async Task<IEnumerable<NodeVM>> GetByTagAsync(string tag)
         {
            
             var loc = await _context.GeocodeModel.Find(emp => emp.Tag == tag).ToListAsync();
-            GeocodeModel loca=new GeocodeModel();
-            var nodes=new List<NodeVM>();
-            var no_of_loc = loc.Count();
+            //GeocodeModel loca=new GeocodeModel();
+            //var nodes=new List<NodeVM>();
+            //var no_of_loc = loc.Count();
 
-            for (int i=0;i<no_of_loc;i++)
-            {
-                loca=loc[i];
-                var locationVM = new double[]
-                {
-                loca.Location.Coordinates.X,
-                loca.Location.Coordinates.Y
-                };
-                var updatedLoc = new NodeVM
-                {
-                    Id = loca.Id,
-                    Name = loca.Name,
-                    Tag=loca.Tag,
-                    Description=loca.Description,
-                    Location = locationVM
-                };
-                nodes.Add(updatedLoc);
+            //for (int i=0;i<no_of_loc;i++)
+            //{
+            //    loca=loc[i];
+            //    var locationVM = new double[]
+            //    {
+            //    loca.Location.Coordinates.X,
+            //    loca.Location.Coordinates.Y
+            //    };
+            //    var updatedLoc = new NodeVM
+            //    {
+            //        Id = loca.Id,
+            //        Name = loca.Name,
+            //        Tag=loca.Tag,
+            //        Description=loca.Description,
+            //        Location = locationVM
+            //    };
+            //    nodes.Add(updatedLoc);
                 
-            }
-            return nodes;
+            //}
+            return loc.ConvertAllToViewModels();
             
 
         }

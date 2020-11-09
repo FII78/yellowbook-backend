@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using FindIt.Backend.Entities;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using FindIt.API.Helpers;
+using FindIt.API.Models.Accounts;
 
 namespace FindIt.Backend.Controllers
 {
@@ -24,34 +26,36 @@ namespace FindIt.Backend.Controllers
             _mapper = mapper;
         }
 
-         
-        [HttpPost("register")]
 
+        [HttpPost("register")]
+        [ValidateModel]
         public async Task<ActionResult> RegisterAsync(RegisterRequest model, int pageId)
         {
 
-            await _accountService.RegisterAsync(model,pageId);
+            await _accountService.RegisterAsync(model, pageId);
 
             return Ok(new { message = "Registration successful" });
         }
 
         [AllowAnonymous]
+        [ValidateModel]
         [HttpPost("login")]
 
         public ActionResult<AuthenticateResult> Authenticate([FromBody] AuthenticateRequest authenticateVm)
         {
 
-            var authUser = _accountService.Authenticate(authenticateVm.Email, authenticateVm.Password);
+            var authUser = _accountService.AuthenticateAsync(authenticateVm);
 
             if (authUser == null) return NotFound("user not registred");
 
             var user = _mapper.Map<Account>(authUser);
-                
+
             return new JsonResult(_accountService.GetToken(user));
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Account>>> Get()
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<AccountsVM>>> Get()
         {
             var accounts = await _accountService.GetAllAsync();
 
@@ -60,13 +64,14 @@ namespace FindIt.Backend.Controllers
 
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Account>> GetbyId(string id)
         {
             var existingAcc = await _accountService.GetAsync(id);
             if (existingAcc == null)
                 return NotFound("Account could not be found");
 
-            return existingAcc;
+            return Ok(existingAcc);
         }
     }
 }

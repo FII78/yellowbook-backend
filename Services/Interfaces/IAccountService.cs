@@ -1,4 +1,5 @@
-﻿using FindIt.Backend.Entities;
+﻿using FindIt.API.Models.Accounts;
+using FindIt.Backend.Entities;
 using FindIt.Backend.Models.Accounts;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,10 @@ namespace FindIt.Backend.Services.Interfaces
     {
         //
         Task RegisterAsync(RegisterRequest model , int pageId);
-        AuthenticateResponse Authenticate(string email, string password);
+        Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest loginRequest);
         AuthenticateResult GetToken(Account user);
         Task<Account> GetAsync(string id);
-        Task<IList<Account>> GetAllAsync();
+        Task<IEnumerable<AccountsVM>> GetAllAsync();
 
 
 

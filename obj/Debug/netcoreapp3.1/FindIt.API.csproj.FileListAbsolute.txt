@@ -41,9 +41,6 @@ C:\Users\Fitsum\source\repos\FindIt.Backend\bin\Debug\netcoreapp3.1\runtimes\win
 C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.API.csprojAssemblyReference.cache
 C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.API.AssemblyInfoInputs.cache
 C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.API.AssemblyInfo.cs
-C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.API.csproj.CoreCompileInputs.cache
-C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.API.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.API.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.API.RazorTargetAssemblyInfo.cache
 C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.API.csproj.CopyComplete
 C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\staticwebassets\FindIt.API.StaticWebAssets.Manifest.cache
@@ -51,3 +48,8 @@ C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\staticwebass
 C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.API.dll
 C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.API.pdb
 C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.API.genruntimeconfig.cache
+C:\Users\Fitsum\source\repos\FindIt.Backend\bin\Debug\netcoreapp3.1\System.Net.Http.Formatting.dll
+C:\Users\Fitsum\source\repos\FindIt.Backend\bin\Debug\netcoreapp3.1\System.Web.Http.dll
+C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.API.csproj.CoreCompileInputs.cache
+C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Fitsum\source\repos\FindIt.Backend\obj\Debug\netcoreapp3.1\FindIt.API.MvcApplicationPartsAssemblyInfo.cache

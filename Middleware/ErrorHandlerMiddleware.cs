@@ -30,7 +30,7 @@ namespace FindIt.Backend.Middleware
 
                 switch (error)
                 {
-                    case AppException e:
+                    case ApiException e:
                         // custom application error
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
                         break;

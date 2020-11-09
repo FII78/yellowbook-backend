@@ -16,6 +16,8 @@ using MongoDB.Bson;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using FindIt.API.Helpers;
+using FindIt.API.Models.Accounts;
 
 namespace FindIt.Backend.Services.Implementations
 {
@@ -43,96 +45,71 @@ namespace FindIt.Backend.Services.Implementations
             _config = config;
            
         }
-       
 
-        public async Task RegisterAsync( RegisterRequest model, int pageId = 1)
+
+        public async Task RegisterAsync(RegisterRequest model, int pageId)
         {
-
-            //
-
-            var collection = _context.Account.AsQueryable();
-
-            var result = (from item in collection
-                          select item)
-                         .Any(item => item.Email == model.Email);
-
-            if (result)
-                throw new AppException("Username \"" + model.Email + "\" is already taken");
-
-
-            // map model to new account object
-            //var account = new Account()
-            //{
-            //    Title = "test title",
-            //    FirstName = "test first name",
-            //    LastName = "test last name",
-            //    Email = "test email",
-            //    AcceptTerms = true,
-            //    Role="User"
-            //};
-
-            var account = new Account()
+            if (model==null)
             {
-                Title = model.Title,
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Email = model.Email,
-                AcceptTerms = model.AcceptTerms,
+                throw new ApiException($"Invalid request because nothing to process");
+            }
+            if (pageId != 1 || pageId != 2)
+            {
+                throw new ApiException($"Invalid request , will not be able to assign role");
+            }
+            var userWithSameEmail = await _context.Account.Find(user => user.Email == model.Email).CountDocumentsAsync();
 
-            };
+            if (userWithSameEmail > 0)
+            {
+                throw new ApiException($"Email '{model.Email}' is already taken.");
+            }
+            else
+            {
+                var account = _mapper.Map<Account>(model);
 
-            if (pageId == 1) { account.Role = "User"; }
-            else if (pageId == 2) { account.Role = "Admin"; }
+                if (pageId == 1) { account.Role = "User"; }
+                else if (pageId == 2) { account.Role = "Admin"; }
 
-            // first registered account is an admin
-            // var isFirstAccount = await _context.Account.EstimatedDocumentCountAsync() == 0;
-            // account.Role = isFirstAccount ? Role.Admin : Role.User;
-            // account.Role = (Role)(account.Role != null ? 0 : 1);
-            account.Created = DateTime.UtcNow;
+                account.Created = DateTime.UtcNow;
+                account.PasswordHash = BC.HashPassword(model.Password);
 
-            // hash password
-           // model.Password
-            account.PasswordHash = BC.HashPassword("abc123abc123");
-
-            // save account
-            await _context.Account.InsertOneAsync(account);
-
+                await _context.Account.InsertOneAsync(account);
+            }
         }
 
-        public AuthenticateResponse Authenticate(string email, string password)
-        { 
-           
-            var builder = Builders<Account>.Filter;
-            var encryptedPassword = BC.HashPassword(password);
-     
-            var model =   _context.Account.Find(s => s.Email == email).FirstOrDefault();
-            if (model==null){
-                return null;
-            }
-            bool checker = BC.Verify(password,model.PasswordHash);
-               
-            if (checker)
+        public async Task<AuthenticateResponse> AuthenticateAsync(AuthenticateRequest loginRequest)
+        {
+            if (loginRequest == null)
             {
-                var response = new AuthenticateResponse()
-                {
-                    Id = model.Id,
-                    Title = model.Title,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
-                    Email = model.Email,
-                    Role = model.Role.ToString(),
-                    Created = model.Created,
-                    Updated = model.Updated
-                };
+                throw new ApiException($"Nothing found to process.");
+            }
+            var model = await _context.Account.Find(s => s.Email == loginRequest.Email).FirstOrDefaultAsync();
 
+            if (model == null)
+            {
+                throw new ApiException($"No Accounts Registered with {loginRequest.Email}.");
+            }
+
+            bool checker = BC.Verify(loginRequest.Password, model.PasswordHash);
+
+
+            if (!checker)
+            {
+                throw new ApiException($"Invalid Credentials for '{loginRequest.Email}'.");
+
+            }
+            else
+            {
+                var response = _mapper.Map<AuthenticateResponse>(model);
                 return response;
             }
-            else return null;
 
         }
-        public async Task<IList<Account>> GetAllAsync()
+        public async Task<IEnumerable<AccountsVM>> GetAllAsync()
         {
-            return await _context.Account.Find(Account => true).ToListAsync();
+            var response= await _context.Account.Find(Account => true).ToListAsync();
+            return response.ConvertAllToViewModels();
+                  
         }
 
         public async Task<Account> GetAsync(string id)

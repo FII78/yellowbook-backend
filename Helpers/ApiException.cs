@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace FindIt.Backend.Helpers
 {
-    public class AppException:Exception
+    public class ApiException:Exception
     {
-        public AppException() : base() { }
+        public ApiException() : base() { }
 
-        public AppException(string message) : base(message) { }
+        public ApiException(string message) : base(message) { }
 
-        public AppException(string message, params object[] args)
+        public ApiException(string message, params object[] args)
             : base(String.Format(CultureInfo.CurrentCulture, message, args))
         {
         }
