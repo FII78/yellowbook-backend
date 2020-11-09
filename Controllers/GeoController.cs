@@ -79,10 +79,8 @@ namespace FindIt.Backend.Controllers
 
         [HttpPost("addgeo")]
         [ValidateModel]
-        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<GeocodeModel>> CreateAsync(NodeVM basem)
         {
-
 
            await _geoRepository.AddEntryAsync(basem);
 

@@ -79,32 +79,32 @@ namespace FindIt.Backend.Services.Implementations
                 var distanc_Max = points.Radius * METERS_PER_MILE;
                 var filter = new FilterDefinitionBuilder<GeocodeModel>()
                              .NearSphere(n => n.Location, filterPoint, distanc_Max);
-
+ 
                 var model = new GeocodeModel();
-                var modelGeo = new NodeVM();
-        
-              return _context.GeocodeModel.Find(filter).ToList()
-                    .Select(n =>
-                {
-                   
 
-                    var cor = new double[]
-                    {
+
+                return _context.GeocodeModel.Find(filter).ToList()
+                      .Select(n =>
+                      {
+                          var modelGeo = new NodeVM();
+                          var cor = new double[]
+                        {
                         n.Location.Coordinates.X,
                         n.Location.Coordinates.Y
-                    };
+                      };
+                          modelGeo.Id = n.Id.ToString();
+                          modelGeo.Name = n.Name;
+                          modelGeo.Tag = n.Tag;
+                          modelGeo.Description = n.Description;
+                          modelGeo.Location = cor;
+                          if (modelGeo.Tag == points.Tag)
+                              return modelGeo;
+                          else
+                              return null;
 
-                    modelGeo.Id = n.Id.ToString();
-                    modelGeo.Name = n.Name;
-                    modelGeo.Tag = n.Tag;
-                    modelGeo.Description = n.Description;
-                    modelGeo.Location = cor;
-                    if (modelGeo.Tag == points.Tag)
-                        return modelGeo;
-                    else
-                        return null;
-                        
-                }); 
+
+                      });
+
 
 
             }
@@ -173,25 +173,7 @@ namespace FindIt.Backend.Services.Implementations
             return locationsVM;
 
         }
-        //var filterId = Builders<GeocodeModel>.Filter.Eq("Tag", tag);
-        //var model = _context.GeocodeModel.Find(filterId).ToList();
-        ////var modArr= model.ToArray();
-        ////var loca = new double[] 
-        ////{
-        ////modArr
-        ////} 
-        ////var locationsVM = new NodeVM
-        ////{
-        ////    Id = model.Id,
-        ////    Name = model.Name,
-        ////    Location = loca
-        ////}; 
-        ////to geocodemodel lewuchiw
-        //return model;
-            //        db.places.find( {
-            //  loc: { $geoWithin: { $centerSphere: [ [ -88, 30 ], 10/3963.2 ] }
-            //}
-            //} )
+       
         public async Task<IEnumerable<NodeVM>> GetByTagAsync(string tag)
         {
            
