@@ -24,7 +24,7 @@ namespace FindIt.Backend.Models.Accounts
         public string Email { get; set; }
         
         [Required(ErrorMessage = "Password is required")]
-        [MinLength(6,ErrorMessage ="Password must be at least 8 charachters")]
+        [MinLength(6,ErrorMessage ="Password must be at least 6 charachters")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

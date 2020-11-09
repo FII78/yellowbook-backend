@@ -33,7 +33,6 @@ namespace FindIt.Backend.Controllers
         {
 
             await _accountService.RegisterAsync(model, pageId);
-
             return Ok(new { message = "Registration successful" });
         }
 
