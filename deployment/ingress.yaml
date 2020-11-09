@@ -16,3 +16,7 @@ spec:
           serviceName: findit-api-service
           servicePort: 80
         path: /api
+  tls:
+  - hosts:
+    - findit-backend.app.et6nh.gebeya.co
+    secretName: findit-backend-tls
