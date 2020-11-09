@@ -41,10 +41,10 @@ namespace FindIt.Backend.Controllers
         [ValidateModel]
         [HttpPost("login")]
 
-        public ActionResult<AuthenticateResult> Authenticate([FromBody] AuthenticateRequest authenticateVm)
+        public async Task<ActionResult<AuthenticateResult>> AuthenticateAsync([FromBody] AuthenticateRequest authenticateVm)
         {
 
-            var authUser = _accountService.AuthenticateAsync(authenticateVm);
+            var authUser =await _accountService.AuthenticateAsync(authenticateVm);
 
             if (authUser == null) return NotFound("user not registred");
 
