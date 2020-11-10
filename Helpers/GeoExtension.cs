@@ -1,5 +1,6 @@
 ﻿using FindIt.Backend.Entities;
 using FindIt.Backend.Models;
+using MongoDB.Driver.GeoJsonObjectModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,27 +11,21 @@ namespace FindIt.API.Helpers
 {
     public static class GeoExtension
     {
-        //public static GeocodeModel ConvertToDomain(this PlayerVM playerViewModel)
-        //{
+        public static GeocodeModel ConvertToDomain(this NodeVM nodeViewModel)
+        {
+            var point = new GeoJson2DCoordinates(nodeViewModel.Location[0], nodeViewModel.Location[1]);
+            var pnt = new GeoJsonPoint<GeoJson2DCoordinates>(point);
 
-        //    Player playerRes = new Player()
-        //    {
-        //        HighScore = playerViewModel.HighScore,
-        //        No_of_Coins = playerViewModel.No_of_Coins,
-        //        FirstName = playerViewModel.FirstName,
-        //        UserName = playerViewModel.UserName,
-        //        Email = playerViewModel.Email,
-        //        PrevLevel = playerViewModel.PrevLevel,
-        //        CurrLevel = playerViewModel.CurrLevel,
-        //        NextLevel = playerViewModel.CurrLevel
+            GeocodeModel geocodeModel = new GeocodeModel()
+            {
+                Name = nodeViewModel.Name,
+                Tag = nodeViewModel.Tag,
+                Description = nodeViewModel.Description,
+                Location = pnt
 
-        //    };
-        //    //      playerRes.PlayerId = Guid.NewGuid().ToString("N");
-        //    playerRes.Role = "Player";
-        //    playerRes.Created = DateTime.UtcNow;
-        //    playerRes.PasswordHash = BC.HashPassword(playerViewModel.Password);
-        //    return playerRes;
-        //}
+            };            
+            return geocodeModel;
+        }
 
         public static IEnumerable<NodeVM> ConvertAllToViewModels(this IEnumerable<GeocodeModel> geoDomains)
         {
@@ -39,7 +34,11 @@ namespace FindIt.API.Helpers
                 yield return geo.ConvertToViewModel();
             }
         }
-
+        /// <summary>
+        /// COnverts to NodeVM from GeoCodeModel
+        /// </summary>
+        /// <param name="loca"></param>
+        /// <returns></returns>
         public static NodeVM ConvertToViewModel(this GeocodeModel loca)
         {
             var locationVM = new double[]

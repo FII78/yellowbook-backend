@@ -6,7 +6,6 @@ using FindIt.Backend.Entities;
 using FindIt.Backend.Helpers;
 using FindIt.Backend.Models;
 using FindIt.Backend.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -48,17 +47,19 @@ namespace FindIt.Backend.Services.Implementations
             try
 
             {
-                var point = new GeoJson2DCoordinates(model.Location[0], model.Location[1]);
-                var pnt = new GeoJsonPoint<GeoJson2DCoordinates>(point);
-                
-                var modelcreated = new GeocodeModel
-                {
-                    Name = model.Name,
-                    Tag=model.Tag,
-                    Description=model.Description,
-                    Location = pnt
-                };
+                //var point = new GeoJson2DCoordinates(model.Location[0], model.Location[1]);
+                //var pnt = new GeoJsonPoint<GeoJson2DCoordinates>(point);
 
+                //var modelcreated = new GeocodeModel
+                //{
+                //    //mode-NodeVM
+                //    Name = model.Name,
+                //    Tag=model.Tag,
+                //    Description=model.Description,
+                //    Location = pnt
+                //};
+
+                var modelcreated = model.ConvertToDomain();
                 await _context.GeocodeModel.InsertOneAsync(modelcreated);
 
             }
