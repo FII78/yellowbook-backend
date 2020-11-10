@@ -35,20 +35,10 @@ namespace FindIt.API.Controllers
 
                         "<html>" +
                         "<body>" +
-                        "<div>"+
-                             "<div>< h1 > FINDIT APPICATION </ h1 >" +
-                             $"<p>Here's the documentation for the FIndIT RestFull WebAPI <a href={URL}> Postman Documentation</a></p></ div >"
-                                 +
-                            "<div>"+
-                                "<div>< h3 >  1.THE APP </ h3 >< p > FindIt App is super user friendly easily adaptable make sure to check it out on play store.</ p > </ div >"+
-                            "</ div >"+ 
-                            "<div>< h3 > 2.THE RESTFUL WEBAPI </ h3 >"+
+                        
+                             "<div>< h1 > FINDIT APPICATION </ h1 ></ div > "+
+                            $"<p>click <a href={URL}> Doc </a></p>" +
 
-                                
-                                "< ul>< li > Easily integratable </ li >< li > Loosely Coupled </ li > < li > Based on best practices </ li > < li > Super fast database </ li ></ ul >"+
-                               
-                           " </ div >"+ 
-                        "</div>" +
                         "</body>" +
                         "</html>"
 
@@ -78,7 +68,7 @@ namespace FindIt.API.Controllers
             "<html>" +
             "<body>" +
             "<div><p><b></b></p></div>" +
-            $"<p>click {accounts} Doc </a></p>" +
+            $"<p>Number of locations currently in the databaase= {accounts.Count()}   </a></p>" +
             "</body>" +
             "</html>"
             };
