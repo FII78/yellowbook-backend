@@ -36,7 +36,8 @@ namespace FindIt.API.Controllers
                         "<html>" +
                         "<body>" +
                         
-                             "<div>< h1 > FINDIT APPICATION </ h1 ></ div > "+
+                              
+                             "<div><p><b> FINDIT APPICATION </b></p></div>"+
                             $"<p>click <a href={URL}> Doc </a></p>" +
 
                         "</body>" +
@@ -67,8 +68,8 @@ namespace FindIt.API.Controllers
 
             "<html>" +
             "<body>" +
-            "<div><p><b></b></p></div>" +
-            $"<p>Number of locations currently in the databaase= {accounts.Count()}   </a></p>" +
+            "<div><p><b>Number of Locations Currently in the Database</b></p></div>" +
+            $"<p>COUNT = {accounts.Count()}   </a></p>" +
             "</body>" +
             "</html>"
             };
