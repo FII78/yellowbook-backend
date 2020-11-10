@@ -122,31 +122,32 @@ namespace FindIt.Backend.Services.Implementations
         public async Task<IEnumerable<NodeVM>> GetAllAsync()
         {
            var locations= await _context.GeocodeModel.Find(Locations => true).ToListAsync();
-            var locationsleng = locations.Count();
-            var allocation =  new List<NodeVM>();
-            var loca = new GeocodeModel();
-         
-           for (int i = 0; i < locationsleng; i++)
-            {
-                loca = locations[i];
+            //var locationsleng = locations.Count();
+            //var allocation =  new List<NodeVM>();
+            //var loca = new GeocodeModel();
 
-                var locationVM = new double[]
-               {
-                loca.Location.Coordinates.X,
-                loca.Location.Coordinates.Y
-               };
-                var updatedLoc = new NodeVM
-                {
-                    Id = loca.Id,
-                    Name = loca.Name,
-                    Tag=loca.Tag,
-                    Description=loca.Description,
-                    Location = locationVM
-                };
+            //for (int i = 0; i < locationsleng; i++)
+            // {
+            //     loca = locations[i];
 
-                allocation.Add(updatedLoc);
-                
-            }
+            //     var locationVM = new double[]
+            //    {
+            //     loca.Location.Coordinates.X,
+            //     loca.Location.Coordinates.Y
+            //    };
+            //     var updatedLoc = new NodeVM
+            //     {
+            //         Id = loca.Id,
+            //         Name = loca.Name,
+            //         Tag=loca.Tag,
+            //         Description=loca.Description,
+            //         Location = locationVM
+            //     };
+
+            //     allocation.Add(updatedLoc);
+
+            // }
+            var allocation=locations.ConvertAllToViewModels();
             return allocation;
 
         }

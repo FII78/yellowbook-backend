@@ -11,6 +11,7 @@ namespace FindIt.API.Helpers
 {
     public static class GeoExtension
     {
+
         public static GeocodeModel ConvertToDomain(this NodeVM nodeViewModel)
         {
             var point = new GeoJson2DCoordinates(nodeViewModel.Location[0], nodeViewModel.Location[1]);
@@ -55,6 +56,7 @@ namespace FindIt.API.Helpers
                 Location = locationVM
 
             };
+
 
             return geoViewModel;
         }
