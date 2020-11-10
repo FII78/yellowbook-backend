@@ -66,7 +66,7 @@ namespace FindIt.Backend.Services.Implementations
 
             catch (Exception)
             {
-                //do something;
+                throw new ApiException($"Invalid request to create a new location");
             }
         }
 
@@ -75,13 +75,15 @@ namespace FindIt.Backend.Services.Implementations
             try
             {
                 var METERS_PER_MILE = 1609.34;
+
                 var filterPoint = GeoJson.Point(new GeoJson2DCoordinates(points.Longitude, points.Latitude));
+
                 var distanc_Max = points.Radius * METERS_PER_MILE;
+
                 var filter = new FilterDefinitionBuilder<GeocodeModel>()
                              .NearSphere(n => n.Location, filterPoint, distanc_Max);
  
                 var model = new GeocodeModel();
-
 
                 return _context.GeocodeModel.Find(filter).ToList()
                       .Select(n =>
@@ -110,7 +112,7 @@ namespace FindIt.Backend.Services.Implementations
             }
             catch (Exception)
             {
-
+               
             }
             return null;
         }

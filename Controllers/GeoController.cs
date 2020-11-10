@@ -55,7 +55,6 @@ namespace FindIt.Backend.Controllers
             var existingAcc = await _geoRepository.GetByTagAsync(tag);
             if (existingAcc == null)
                 return NotFound("Location could not be found");
-
             return Ok(existingAcc);
         }
 
@@ -65,7 +64,7 @@ namespace FindIt.Backend.Controllers
             var locations = _geoRepository.GetAddress(points);
             if (locations == null)
             {
-                return BadRequest();
+                return NotFound("No location was found on the specified radius and tag");
             }
             else 
             {
@@ -82,7 +81,7 @@ namespace FindIt.Backend.Controllers
         public async Task<ActionResult<GeocodeModel>> CreateAsync(NodeVM basem)
         {
 
-           await _geoRepository.AddEntryAsync(basem);
+            await _geoRepository.AddEntryAsync(basem);
 
             return Ok(new { message = "Added a Location successfully" });
 
@@ -96,7 +95,7 @@ namespace FindIt.Backend.Controllers
 
             var existingLoc =   _geoRepository.Get(location.Id);
             if (existingLoc == null)
-                return NotFound();
+                return NotFound("Locaion cound not be found");
 
             var updatedLoc = await _geoRepository.UpdateAsync(location);
 
@@ -111,7 +110,7 @@ namespace FindIt.Backend.Controllers
 
             var existingLoc = _geoRepository.Get(location.Id);
             if (existingLoc == null)
-                return NotFound();
+                return NotFound("Location could not be found");
 
              await _geoRepository.UpdatebyNameAsync(location);
 
@@ -124,7 +123,7 @@ namespace FindIt.Backend.Controllers
         {
             var existingLoc =  _geoRepository.Get(id);
             if (existingLoc == null)
-                return NotFound();
+                return NotFound("Location could not be found");
 
             await _geoRepository.DeleteAsync(id);
 

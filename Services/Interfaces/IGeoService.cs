@@ -13,6 +13,7 @@ namespace FindIt.Backend.Services.Interfaces
 {
     public interface IGeoService
     {
+
         Task AddEntryAsync(NodeVM model);
         IEnumerable<NodeVM> GetAddress(NodeForNearestVM points);
         Task<IEnumerable<NodeVM>> GetAllAsync();

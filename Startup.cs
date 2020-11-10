@@ -86,9 +86,6 @@ namespace FindIt.Backend
             });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-         
-            //services.AddAuthorization();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IGeoService, GeoServices>();
             services.AddScoped<IAccountService, AccountService>();

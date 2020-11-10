@@ -14,11 +14,11 @@ namespace FindIt.API.Models.GeoLocation
         public string Name { get; set; }
 
         [BsonElement("tag")]
-        [MaxLength(10, ErrorMessage = "Location tag can not be longer than 10")]
+        [MaxLength(30, ErrorMessage = "Location tag can not be longer than 30")]
         public string Tag { get; set; }
 
         [BsonElement("description")]
-        [MaxLength(70, ErrorMessage = "Location description can not be longer than 70")]
+        [MaxLength(1000, ErrorMessage = "Location description can not be longer than 100")]
         public string Description { get; set; }
     }
 }
